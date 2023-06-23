@@ -1,0 +1,9 @@
+# Node.js
+node_modules/
+npm-debug.log
+*.env
+
+# Visual Studio Code
+.vscode/
+.scratch/
+*.bak
