@@ -1,0 +1,15 @@
+{
+  "name": "update-repositories",
+  "version": "1.0.0",
+  "description": "Update Repositories This is a Node.js script that updates the repositories that are associated with teams in a GitHub organization. The script reads a list of repositories from a file in each team directory, adds or updates the repositories in the corresponding team, and removes any repositories from the team that are not listed in the file.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/auth-app": "^5.0.6",
+    "@octokit/rest": "^19.0.13"
+  }
+}
