@@ -11,5 +11,8 @@
   "dependencies": {
     "@octokit/auth-app": "^5.0.6",
     "@octokit/rest": "^19.0.13"
+  },
+  "devDependencies": {
+    "prettier": "2.8.8"
   }
 }
