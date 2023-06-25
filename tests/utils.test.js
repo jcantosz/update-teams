@@ -32,8 +32,8 @@ describe("hasRepositoriesFile", () => {
 describe("getRepositoriesFromFile", () => {
   test("returns a list of repositories for the specified team", () => {
     const repositories = getRepositoriesFromFile("test-data");
-    expect(repositories).toContainEqual({ full_name: "sample-org/.github-private", permission: "pull" });
-    expect(repositories).toContainEqual({ full_name: "sample-org/package-registry", permission: "admin" });
+    expect(repositories).toContainEqual({ full_name: "sample-org/repository-1", permission: "pull" });
+    expect(repositories).toContainEqual({ full_name: "sample-org/repository-2", permission: "admin" });
   });
 });
 
@@ -75,8 +75,8 @@ describe("addRepositoriesToTeam", () => {
       },
     };
     const repositoryList = [
-      { full_name: "sample-org/.github-private", permission: "pull" },
-      { full_name: "sample-org/package-registry", permission: "admin" },
+      { full_name: "sample-org/repository-1", permission: "pull" },
+      { full_name: "sample-org/repository-2", permission: "admin" },
     ];
     //octokit, organizationName, teamName, teamRepos, repositoryList)
     await addRepositoriesToTeam(octokit, "sample-org", "test-data", [], repositoryList);
@@ -84,14 +84,14 @@ describe("addRepositoriesToTeam", () => {
       org: "sample-org",
       team_slug: "test-data",
       owner: "sample-org",
-      repo: ".github-private",
+      repo: "repository-1",
       permission: "pull",
     });
     expect(octokit.teams.addOrUpdateRepoPermissionsInOrg).toHaveBeenCalledWith({
       org: "sample-org",
       team_slug: "test-data",
       owner: "sample-org",
-      repo: "package-registry",
+      repo: "repository-2",
       permission: "admin",
     });
   });
@@ -106,7 +106,7 @@ describe("removeRepositoriesFromTeam", () => {
     };
     const teamRepos = [
       {
-        full_name: "sample-org/.github-private",
+        full_name: "sample-org/repository-1",
         permissions: {
           pull: true,
           push: false,
@@ -114,7 +114,7 @@ describe("removeRepositoriesFromTeam", () => {
         },
       },
       {
-        full_name: "sample-org/package-registry",
+        full_name: "sample-org/repository-1",
         permissions: {
           pull: false,
           push: true,
