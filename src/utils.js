@@ -59,22 +59,18 @@ function normalizePermissions(permission) {
  * Reads the team's repositories and returns the list of repositories.
  */
 async function getRepositoriesFromTeam(octokit, organizationName, teamName) {
-  var cleanedRepositories = [];
   const repos = await octokit.teams.listReposInOrg({
     org: organizationName,
     team_slug: teamName,
   });
-  for (const repo of repos.data) {
-    cleanedRepositories.push({
-      full_name: repo.full_name,
-      permission: normalizePermissions(repo.role_name),
-    });
-  }
-  return cleanedRepositories;
+  return repos.data.map(({ full_name, role_name }) => ({
+    full_name,
+    permission: normalizePermissions(role_name),
+  }));
 }
 
 function repositoryInList(repository, repositoryList) {
-  return repositoryList.some((r) => r.full_name == repository.full_name);
+  return repositoryList.some((r) => r.full_name === repository.full_name);
 }
 
 function repositoryPermissionsChanged(repository, repositoryList) {
@@ -83,17 +79,16 @@ function repositoryPermissionsChanged(repository, repositoryList) {
 }
 
 function addOrUpdateRepository(repository, teamRepos, teamName) {
-  var addOrUpdateRepository = true;
   if (repositoryInList(repository, teamRepos)) {
     if (repositoryPermissionsChanged(repository, teamRepos)) {
       console.log(`Updating ${repository.full_name} with ${repository.permission} permission in ${teamName}`);
     } else {
-      addOrUpdateRepository = false;
+      return false;
     }
   } else {
     console.log(`Adding ${repository.full_name} with ${repository.permission} permission to ${teamName}`);
   }
-  return addOrUpdateRepository;
+  return true;
 }
 
 /**
@@ -103,11 +98,12 @@ async function addRepositoriesToTeam(octokit, organizationName, teamName, teamRe
   for (const repository of repositoryList) {
     if (addOrUpdateRepository(repository, teamRepos, teamName)) {
       // Add the repository to the corresponding team with the specified permission level
+      const [owner, repoName] = repository.full_name.split("/");
       await octokit.teams.addOrUpdateRepoPermissionsInOrg({
         org: organizationName,
         team_slug: teamName,
-        owner: repository.full_name.split("/")[0],
-        repo: repository.full_name.split("/")[1],
+        owner,
+        repo: repoName,
         permission: repository.permission,
       });
     }
@@ -123,16 +119,15 @@ async function removeRepositoriesFromTeam(octokit, organizationName, teamName, t
     // Check if the repository appears in the repositories file
     //const repoSlug = repo.full_name;
 
-    const repoExists = repositoryInList(repo, repositoryList);
-
     // If the repository does not appear in the repositories file, remove it from the team
-    if (!repoExists) {
+    if (!repositoryInList(repo, repositoryList)) {
       console.log(`Removing ${repo.full_name} from ${teamName}`);
+      const [owner, repoName] = repo.full_name.split("/");
       await octokit.teams.removeRepoInOrg({
         org: organizationName,
         team_slug: teamName,
-        owner: repo.full_name.split("/")[0],
-        repo: repo.full_name.split("/")[1],
+        owner,
+        repo: repoName,
       });
     }
   }

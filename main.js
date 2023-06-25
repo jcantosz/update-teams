@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { Octokit } = require("@octokit/rest");
-const { createAppAuthWithEnv } = require("./auth");
+const { createAppAuthWithEnv } = require("./src/auth");
 const {
   getDirectories,
   hasRepositoriesFile,
@@ -9,7 +9,7 @@ const {
   getRepositoriesFromTeam,
   addRepositoriesToTeam,
   removeRepositoriesFromTeam,
-} = require("./utils");
+} = require("./src/utils");
 
 // GitHub App Permissions
 // Repository permissions
