@@ -13,13 +13,13 @@ describe("getDirectories", () => {
   test("returns a list of directories in the current directory", () => {
     const directories = getDirectories();
     expect(directories).toContain("src");
-    expect(directories).toContain("test");
+    expect(directories).toContain("test-data");
   });
 });
 
 describe("hasRepositoriesFile", () => {
   test("returns true if the specified team has a repositories file", () => {
-    const hasFile = hasRepositoriesFile("test");
+    const hasFile = hasRepositoriesFile("test-data");
     expect(hasFile).toBe(true);
   });
 
@@ -31,9 +31,9 @@ describe("hasRepositoriesFile", () => {
 
 describe("getRepositoriesFromFile", () => {
   test("returns a list of repositories for the specified team", () => {
-    const repositories = getRepositoriesFromFile("test");
-    expect(repositories).toContainEqual({ full_name: "jcantosz-test-org/.github-private", permission: "pull" });
-    expect(repositories).toContainEqual({ full_name: "jcantosz-test-org/package-registry", permission: "admin" });
+    const repositories = getRepositoriesFromFile("test-data");
+    expect(repositories).toContainEqual({ full_name: "sample-org/.github-private", permission: "pull" });
+    expect(repositories).toContainEqual({ full_name: "sample-org/package-registry", permission: "admin" });
   });
 });
 
@@ -44,24 +44,24 @@ describe("getRepositoriesFromTeam", () => {
         listReposInOrg: jest.fn().mockResolvedValue({
           data: [
             {
-              full_name: "jcantosz-test-org/.github-private",
+              full_name: "sample-org/.github-private",
               role_name: "pull",
             },
             {
-              full_name: "jcantosz-test-org/package-registry",
+              full_name: "sample-org/package-registry",
               role_name: "admin",
             },
           ],
         }),
       },
     };
-    const repositories = await getRepositoriesFromTeam(octokit, "jcantosz-test-org", "test");
+    const repositories = await getRepositoriesFromTeam(octokit, "sample-org", "test-data");
     expect(repositories).toContainEqual({
-      full_name: "jcantosz-test-org/.github-private",
+      full_name: "sample-org/.github-private",
       permission: "pull",
     });
     expect(repositories).toContainEqual({
-      full_name: "jcantosz-test-org/package-registry",
+      full_name: "sample-org/package-registry",
       permission: "admin",
     });
   });
@@ -75,22 +75,22 @@ describe("addRepositoriesToTeam", () => {
       },
     };
     const repositoryList = [
-      { full_name: "jcantosz-test-org/.github-private", permission: "pull" },
-      { full_name: "jcantosz-test-org/package-registry", permission: "admin" },
+      { full_name: "sample-org/.github-private", permission: "pull" },
+      { full_name: "sample-org/package-registry", permission: "admin" },
     ];
     //octokit, organizationName, teamName, teamRepos, repositoryList)
-    await addRepositoriesToTeam(octokit, "jcantosz-test-org", "test", [], repositoryList);
+    await addRepositoriesToTeam(octokit, "sample-org", "test-data", [], repositoryList);
     expect(octokit.teams.addOrUpdateRepoPermissionsInOrg).toHaveBeenCalledWith({
-      org: "jcantosz-test-org",
-      team_slug: "test",
-      owner: "jcantosz-test-org",
+      org: "sample-org",
+      team_slug: "test-data",
+      owner: "sample-org",
       repo: ".github-private",
       permission: "pull",
     });
     expect(octokit.teams.addOrUpdateRepoPermissionsInOrg).toHaveBeenCalledWith({
-      org: "jcantosz-test-org",
-      team_slug: "test",
-      owner: "jcantosz-test-org",
+      org: "sample-org",
+      team_slug: "test-data",
+      owner: "sample-org",
       repo: "package-registry",
       permission: "admin",
     });
@@ -106,7 +106,7 @@ describe("removeRepositoriesFromTeam", () => {
     };
     const teamRepos = [
       {
-        full_name: "jcantosz-test-org/.github-private",
+        full_name: "sample-org/.github-private",
         permissions: {
           pull: true,
           push: false,
@@ -114,7 +114,7 @@ describe("removeRepositoriesFromTeam", () => {
         },
       },
       {
-        full_name: "jcantosz-test-org/package-registry",
+        full_name: "sample-org/package-registry",
         permissions: {
           pull: false,
           push: true,
@@ -122,7 +122,7 @@ describe("removeRepositoriesFromTeam", () => {
         },
       },
       {
-        full_name: "jcantosz-test-org/other-repo",
+        full_name: "sample-org/other-repo",
         permissions: {
           pull: true,
           push: true,
@@ -130,12 +130,12 @@ describe("removeRepositoriesFromTeam", () => {
         },
       },
     ];
-    const repositoryList = ["jcantosz-test-org/.github-private", "jcantosz-test-org/package-registry"];
-    await removeRepositoriesFromTeam(octokit, "jcantosz-test-org", "test", teamRepos, repositoryList);
+    const repositoryList = ["sample-org/.github-private", "sample-org/package-registry"];
+    await removeRepositoriesFromTeam(octokit, "sample-org", "test-data", teamRepos, repositoryList);
     expect(octokit.teams.removeRepoInOrg).toHaveBeenCalledWith({
-      org: "jcantosz-test-org",
-      team_slug: "test",
-      owner: "jcantosz-test-org",
+      org: "sample-org",
+      team_slug: "test-data",
+      owner: "sample-org",
       repo: "other-repo",
     });
   });
