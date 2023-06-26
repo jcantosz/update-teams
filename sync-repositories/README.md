@@ -57,7 +57,7 @@ You can create a GitHub App and generate a private key by following the instruct
 
 ## Configuration
 
-Create a file named repositories in each team directory. The file should contain a list of repositories in the format <permission> <owner>/<repo>, where <permission> is one of pull, push, or admin, and <owner>/<repo> is the owner and name of the repository separated by a slash. For example:
+Create a file named `repositories` in each team directory. The file should contain a list of repositories in the format `<permission> <owner>/<repo>`, where `<permission>` is one of `read|pull`, `triage`, `write|push`, `maintain`, `admin`, and `<owner>/<repo>` is the owner and name of the repository separated by a slash. For example:
 
 ## Testing
 
