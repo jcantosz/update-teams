@@ -60,7 +60,7 @@ function addUser(username, teamUsers, teamName) {
 async function addUsersToTeam(octokit, organizationName, teamName, teamUsers, userList) {
   for (const username of userList) {
     if (addUser(username, teamUsers, teamName)) {
-      if (!process.env.INPUTS_DRY_RUN) {
+      if (!process.env.INPUT_DRY_RUN) {
         // Add the user to the corresponding team with the specified permission level
         await octokit.teams.addOrUpdateMembershipForUserInOrg({
           org: organizationName,
@@ -86,7 +86,7 @@ async function removeUsersFromTeam(octokit, organizationName, teamName, teamUser
     // If the user does not appear in the users file, remove it from the team
     if (!userInList(user, userList)) {
       console.log(`Removing ${user} from ${teamName}`);
-      if (!process.env.INPUTS_DRY_RUN) {
+      if (!process.env.INPUT_DRY_RUN) {
         await octokit.teams.removeRepoInOrg({
           org: organizationName,
           team_slug: teamName,

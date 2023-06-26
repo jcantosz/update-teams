@@ -35149,13 +35149,13 @@ function createAppAuthWithEnv() {
   return {
     authStrategy: createAppAuth,
     auth: {
-      appId: process.env.INPUTS_APP_ID,
-      privateKey: process.env.INPUTS_PRIVATE_KEY,
-      clientId: process.env.INPUTS_CLIENT_ID,
-      clientSecret: process.env.INPUTS_CLIENT_SECRET,
-      installationId: process.env.INPUTS_INSTALLATION_ID,
+      appId: process.env.INPUT_APP_ID,
+      privateKey: process.env.INPUT_PRIVATE_KEY,
+      clientId: process.env.INPUT_CLIENT_ID,
+      clientSecret: process.env.INPUT_CLIENT_SECRET,
+      installationId: process.env.INPUT_INSTALLATION_ID,
     },
-    base_url: process.env.INPUTS_GITHUB_API_URL || "https://api.github.com",
+    base_url: process.env.INPUT_GITHUB_API_URL || "https://api.github.com",
   };
 }
 
@@ -35270,7 +35270,7 @@ async function addRepositoriesToTeam(octokit, organizationName, teamName, teamRe
     if (addOrUpdateRepository(repository, teamRepos, teamName)) {
       // Add the repository to the corresponding team with the specified permission level
       const [owner, repoName] = repository.full_name.split("/");
-      if (!process.env.INPUTS_DRY_RUN) {
+      if (!process.env.INPUT_DRY_RUN) {
         await octokit.teams.addOrUpdateRepoPermissionsInOrg({
           org: organizationName,
           team_slug: teamName,
@@ -35298,7 +35298,7 @@ async function removeRepositoriesFromTeam(octokit, organizationName, teamName, t
     if (!repositoryInList(repo, repositoryList)) {
       console.log(`Removing ${repo.full_name} from ${teamName}`);
       const [owner, repoName] = repo.full_name.split("/");
-      if (!process.env.INPUTS_DRY_RUN) {
+      if (!process.env.INPUT_DRY_RUN) {
         await octokit.teams.removeRepoInOrg({
           org: organizationName,
           team_slug: teamName,
@@ -36912,7 +36912,7 @@ const { Console } = __nccwpck_require__(6206);
 // Organization permissions
 // Members: Read-and-write
 const octokit = new Octokit(createAppAuthWithEnv());
-const organizationName = process.env.INPUTS_ORGANIZATION_NAME;
+const organizationName = process.env.INPUT_ORGANIZATION_NAME;
 
 /**
  * Processes the repositories for the specified team.

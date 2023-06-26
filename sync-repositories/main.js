@@ -19,7 +19,7 @@ const { Console } = require("console");
 // Organization permissions
 // Members: Read-and-write
 const octokit = new Octokit(createAppAuthWithEnv());
-const organizationName = process.env.INPUTS_ORGANIZATION_NAME;
+const organizationName = process.env.INPUT_ORGANIZATION_NAME;
 
 /**
  * Processes the repositories for the specified team.

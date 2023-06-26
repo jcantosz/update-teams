@@ -5,7 +5,7 @@ const { createAppAuthWithEnv } = require("./src/auth");
 const { getDirectories, hasUsersFile, getUsersFromFile, getUsersFromTeam, addUsersToTeam, removeUsersFromTeam } = require("./src/utils");
 
 const octokit = new Octokit(createAppAuthWithEnv());
-const organizationName = process.env.INPUTS_ORGANIZATION_NAME;
+const organizationName = process.env.INPUT_ORGANIZATION_NAME;
 
 /**
  * Processes the users for the specified team.
@@ -32,7 +32,7 @@ async function main() {
   if (!organizationName) {
     throw new Error("ORGANIZATION_NAME environment variable not set");
   }
-  if (process.env.INPUTS_DRY_RUN) {
+  if (process.env.INPUT_DRY_RUN) {
     console.log("Dry run enabled");
   }
   // Define the organization name

@@ -33108,13 +33108,13 @@ function createAppAuthWithEnv() {
   return {
     authStrategy: createAppAuth,
     auth: {
-      appId: process.env.INPUTS_APP_ID,
-      privateKey: process.env.INPUTS_PRIVATE_KEY,
-      clientId: process.env.INPUTS_CLIENT_ID,
-      clientSecret: process.env.INPUTS_CLIENT_SECRET,
-      installationId: process.env.INPUTS_INSTALLATION_ID,
+      appId: process.env.INPUT_APP_ID,
+      privateKey: process.env.INPUT_PRIVATE_KEY,
+      clientId: process.env.INPUT_CLIENT_ID,
+      clientSecret: process.env.INPUT_CLIENT_SECRET,
+      installationId: process.env.INPUT_INSTALLATION_ID,
     },
-    base_url: process.env.INPUTS_GITHUB_API_URL || "https://api.github.com",
+    base_url: process.env.INPUT_GITHUB_API_URL || "https://api.github.com",
   };
 }
 
@@ -33190,7 +33190,7 @@ function addUser(username, teamUsers, teamName) {
 async function addUsersToTeam(octokit, organizationName, teamName, teamUsers, userList) {
   for (const username of userList) {
     if (addUser(username, teamUsers, teamName)) {
-      if (!process.env.INPUTS_DRY_RUN) {
+      if (!process.env.INPUT_DRY_RUN) {
         // Add the user to the corresponding team with the specified permission level
         await octokit.teams.addOrUpdateMembershipForUserInOrg({
           org: organizationName,
@@ -33216,7 +33216,7 @@ async function removeUsersFromTeam(octokit, organizationName, teamName, teamUser
     // If the user does not appear in the users file, remove it from the team
     if (!userInList(user, userList)) {
       console.log(`Removing ${user} from ${teamName}`);
-      if (!process.env.INPUTS_DRY_RUN) {
+      if (!process.env.INPUT_DRY_RUN) {
         await octokit.teams.removeRepoInOrg({
           org: organizationName,
           team_slug: teamName,
@@ -34808,7 +34808,7 @@ const { createAppAuthWithEnv } = __nccwpck_require__(9409);
 const { getDirectories, hasUsersFile, getUsersFromFile, getUsersFromTeam, addUsersToTeam, removeUsersFromTeam } = __nccwpck_require__(4479);
 
 const octokit = new Octokit(createAppAuthWithEnv());
-const organizationName = process.env.INPUTS_ORGANIZATION_NAME;
+const organizationName = process.env.INPUT_ORGANIZATION_NAME;
 
 /**
  * Processes the users for the specified team.
@@ -34835,7 +34835,7 @@ async function main() {
   if (!organizationName) {
     throw new Error("ORGANIZATION_NAME environment variable not set");
   }
-  if (process.env.INPUTS_DRY_RUN) {
+  if (process.env.INPUT_DRY_RUN) {
     console.log("Dry run enabled");
   }
   // Define the organization name

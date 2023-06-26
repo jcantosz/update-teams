@@ -42,13 +42,13 @@ jobs:
 1. Install the dependencies: `npm install`
 1. Create a `.env` file that exports the following environment variables:
 
-- `INPUTS_APP_ID` - GitHub App's app ID
-- `INPUTS_PRIVATE_KEY` - GitHub App's private key
-- `INPUTS_CLIENT_ID` - GitHub App's client ID
-- `INPUTS_CLIENT_SECRET` - GitHub App's client secret
-- `INPUTS_INSTALLATION_ID` - GitHub App's Installation ID
-- `INPUTS_ORGANIZATION_NAME` - GitHub organization with teams/repositories to modify
-- `INPUTS_DRY_RUN` - if set, skip any execution that would make changes to GitHub
+- `INPUT_APP_ID` - GitHub App's app ID
+- `INPUT_PRIVATE_KEY` - GitHub App's private key
+- `INPUT_CLIENT_ID` - GitHub App's client ID
+- `INPUT_CLIENT_SECRET` - GitHub App's client secret
+- `INPUT_INSTALLATION_ID` - GitHub App's Installation ID
+- `INPUT_ORGANIZATION_NAME` - GitHub organization with teams/repositories to modify
+- `INPUT_DRY_RUN` - if set, skip any execution that would make changes to GitHub
 
 4. Source the env file: `source ./.env`
 5. Run the program: `node main.js`

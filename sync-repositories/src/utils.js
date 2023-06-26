@@ -99,7 +99,7 @@ async function addRepositoriesToTeam(octokit, organizationName, teamName, teamRe
     if (addOrUpdateRepository(repository, teamRepos, teamName)) {
       // Add the repository to the corresponding team with the specified permission level
       const [owner, repoName] = repository.full_name.split("/");
-      if (!process.env.INPUTS_DRY_RUN) {
+      if (!process.env.INPUT_DRY_RUN) {
         await octokit.teams.addOrUpdateRepoPermissionsInOrg({
           org: organizationName,
           team_slug: teamName,
@@ -127,7 +127,7 @@ async function removeRepositoriesFromTeam(octokit, organizationName, teamName, t
     if (!repositoryInList(repo, repositoryList)) {
       console.log(`Removing ${repo.full_name} from ${teamName}`);
       const [owner, repoName] = repo.full_name.split("/");
-      if (!process.env.INPUTS_DRY_RUN) {
+      if (!process.env.INPUT_DRY_RUN) {
         await octokit.teams.removeRepoInOrg({
           org: organizationName,
           team_slug: teamName,
