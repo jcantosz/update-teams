@@ -9,9 +9,11 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  build-sync-repos:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: "sync-repositories"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,7 +21,26 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: "14.x"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+  build-sync-teams:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "sync-users"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
 
       - name: Install dependencies
         run: npm install
