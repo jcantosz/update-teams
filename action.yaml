@@ -1,0 +1,27 @@
+name: Sync Team Repositories
+
+description: Sync team repositories for an organization based on permissions & repositories defined in a file for a team
+
+inputs:
+  app_id:
+    description: "The app id authentication"
+    required: true
+  private_key:
+    description: "The private key to use for authentication"
+    required: true
+  client_id:
+    description: "The client id to use for authentication"
+    required: true
+  client_secret:
+    description: "The client secret to use for authentication"
+    required: true
+  installation_id:
+    description: "The installation id to use for authentication"
+    required: true
+  organization_name:
+    description: "The organization name to sync teams under"
+    required: true
+
+runs:
+  using: "node16"
+  main: "main.js"

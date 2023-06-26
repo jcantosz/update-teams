@@ -7,11 +7,11 @@ function createAppAuthWithEnv() {
   return {
     authStrategy: createAppAuth,
     auth: {
-      appId: process.env.APP_ID,
-      privateKey: process.env.PRIVATE_KEY,
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      installationId: process.env.INSTALLATION_ID,
+      appId: process.env.INPUTS_APP_ID,
+      privateKey: process.env.INPUTS_PRIVATE_KEY,
+      clientId: process.env.INPUTS_CLIENT_ID,
+      clientSecret: process.env.INPUTS_CLIENT_SECRET,
+      installationId: process.env.INPUTS_INSTALLATION_ID,
     },
   };
 }
