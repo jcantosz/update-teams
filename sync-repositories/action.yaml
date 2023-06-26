@@ -21,6 +21,13 @@ inputs:
   organization_name:
     description: "The organization name to sync teams under"
     required: true
+  github_api_url:
+    description: "The url where github's API is located"
+    required: false
+    default: "https://api.github.com"
+  dry_run:
+    description: "Prevent executing commands that would make changes to GitHub"
+    required: false
 
 runs:
   using: "node16"

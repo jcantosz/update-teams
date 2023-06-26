@@ -1,34 +1,52 @@
-## Update Team Repositories
+# Team Sync Actions
+A group of actions to sync user and repo information to teams based on files in a repository. If a user/repo is exists in the file but does not exist for the team, the user/repo will be added. If they do not exist in the file but exist in the team, that item will be removed from the team.
 
-This is a Node.js script that updates the repositories that are associated with teams in a GitHub organization. The script reads a list of repositories from a file in each team directory, adds or updates the repositories in the corresponding team, and removes any repositories from the team that are not listed in the file.
+## Repository Layout
+```
+|- ad.groups
+|- <team name>
+|  |- users
+|  \- repositories
+|- <team name>
+|  |- users
+|  \- repositories
+\- <team name>
+   |- users
+   \- repositories
+...
+```
 
-## Usage
+## File Format
+### repositories
+A list permissions and repos to add to the team. Each item should be on its own line. Permissions are space separated from the repository. The repository should include the organization name and the repository name
+```
+<permission> <repository>
+<permission> <repository>
+<permission> <repository>
+```
+ex.
+```
+read my-org/my-repo
+write my-org/other-repo
+```
+Where permission can be set to `read|pull`, `triage`, `write|push`, `maintain`, `admin`
 
-### To run as an action:
+### users
+A list of user ids to add to the team. Each user should be on its own line
+```
+<user id>
+<user id>
+```
+ex.
+```
+jcantosz
+```
 
-### To run locally
-
-1. Clone the repository
-1. Install the dependencies: `npm install`
-1. Create a .env file with the following contents:
-
-- `INPUTS_APP_ID` - GitHub App's app ID
-- `INPUTS_PRIVATE_KEY` - GitHub App's private key
-- `INPUTS_CLIENT_ID` - GitHub App's client ID
-- `INPUTS_CLIENT_SECRET` - GitHub App's client secret
-- `INPUTS_INSTALLATION_ID` - GitHub App's Installation ID
-- `INPUTS_ORGANIZATION_NAME` - GitHub organization with teams/repositories to modify
-
-1. `node main.js`
-
-You can create a GitHub App and generate a private key by following the instructions in the GitHub documentation.
-
-## Configuration
-
-Create a file named repositories in each team directory. The file should contain a list of repositories in the format <permission> <owner>/<repo>, where <permission> is one of pull, push, or admin, and <owner>/<repo> is the owner and name of the repository separated by a slash. For example:
-
-## Testing
-
-To run the tests, use the following command: `npm test`
-
-The tests use the Jest testing framework to test the behavior of the utils.js module. The tests mock the necessary dependencies and test the behavior of each function.
+## GitHub Application
+Create a github Application with the following permissions:
+// GitHub App Permissions
+// Repository permissions
+// Administration: Read-and-write
+// Metadata: Read-only
+// Organization permissions
+// Members: Read-and-write

@@ -4,19 +4,12 @@ const { Octokit } = require("@octokit/rest");
 const { createAppAuthWithEnv } = require("./src/auth");
 const {
   getDirectories,
-  hasRepositoriesFile,
-  getRepositoriesFromFile,
-  getRepositoriesFromTeam,
+  hasUsersFile,
+  getUsersFromFile,
+  getUsersFromTeam,
   addRepositoriesToTeam,
   removeRepositoriesFromTeam,
 } = require("./src/utils");
-
-// GitHub App Permissions
-// Repository permissions
-// Administration: Read-and-write
-// Metadata: Read-only
-// Organization permissions
-// Members: Read-and-write
 
 const octokit = new Octokit(createAppAuthWithEnv());
 const organizationName = process.env.INPUTS_ORGANIZATION_NAME;
@@ -26,10 +19,10 @@ const organizationName = process.env.INPUTS_ORGANIZATION_NAME;
  */
 async function processTeam(teamName) {
   // Get the repositories for the team defined in its repositories file
-  const repositoryList = getRepositoriesFromFile(teamName);
+  const repositoryList = getUsersFromFile(teamName);
 
   // Get the repositories already in the team on GitHub
-  const teamRepositories = await getRepositoriesFromTeam(octokit, organizationName, teamName);
+  const teamRepositories = await getUsersFromTeam(octokit, organizationName, teamName);
 
   // console.debug("teamRepositories", teamRepositories);
   // console.debug("repositoryList", repositoryList);
@@ -53,7 +46,7 @@ async function main() {
   const directories = getDirectories();
   // Loop through each directory and process the repositories for the corresponding team
   for (const teamName of directories) {
-    if (hasRepositoriesFile(teamName)) {
+    if (hasUsersFile(teamName)) {
       try {
         processTeam(teamName);
       } catch (error) {

@@ -114,7 +114,7 @@ describe("removeRepositoriesFromTeam", () => {
         },
       },
       {
-        full_name: "sample-org/repository-1",
+        full_name: "sample-org/repository-2",
         permissions: {
           pull: false,
           push: true,
