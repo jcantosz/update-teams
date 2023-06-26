@@ -13,6 +13,7 @@ function createAppAuthWithEnv() {
       clientSecret: process.env.INPUTS_CLIENT_SECRET,
       installationId: process.env.INPUTS_INSTALLATION_ID,
     },
+    base_url: process.env.INPUTS_GITHUB_API_URL || "https://api.github.com",
   };
 }
 

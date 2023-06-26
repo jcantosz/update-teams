@@ -18,8 +18,7 @@ const { Console } = require("console");
 // Metadata: Read-only
 // Organization permissions
 // Members: Read-and-write
-const gh = process.env.INPUTS_GITHUB_API_URL || "https://api.github.com";
-const octokit = new Octokit(createAppAuthWithEnv(), gh);
+const octokit = new Octokit(createAppAuthWithEnv());
 const organizationName = process.env.INPUTS_ORGANIZATION_NAME;
 
 /**
