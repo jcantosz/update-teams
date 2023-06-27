@@ -50,3 +50,8 @@ Create a github Application with the following permissions:
 // Metadata: Read-only
 // Organization permissions
 // Members: Read-and-write
+
+
+## Notes
+does not do nested teams
+does not create/validate teams/repos/users created/exist
