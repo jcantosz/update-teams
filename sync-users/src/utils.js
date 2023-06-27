@@ -79,19 +79,18 @@ async function addUsersToTeam(octokit, organizationName, teamName, teamUsers, us
  */
 async function removeUsersFromTeam(octokit, organizationName, teamName, teamUsers, userList) {
   // Loop through each user that the team has been added to
-  for (const user of teamUsers) {
+  for (const username of teamUsers) {
     // Check if the user appears in the users file
     //const repoSlug = repo.full_name;
 
     // If the user does not appear in the users file, remove it from the team
-    if (!userInList(user, userList)) {
-      console.log(`Removing ${user} from ${teamName}`);
+    if (!userInList(username, userList)) {
+      console.log(`Removing ${username} from ${teamName}`);
       if (!process.env.INPUT_DRY_RUN) {
-        await octokit.teams.removeRepoInOrg({
+        await octokit.teams.removeMembershipForUserInOrg({
           org: organizationName,
           team_slug: teamName,
-          owner,
-          repo: repoName,
+          username: username,
         });
       } else {
         console.log("Dry run: Skipping execution");
