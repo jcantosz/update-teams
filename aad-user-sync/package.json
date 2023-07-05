@@ -1,0 +1,20 @@
+{
+  "name": "my-package",
+  "version": "1.0.0",
+  "description": "My package description",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest",
+    "pretest": "npm ci",
+    "build": "ncc build main.js --license licenses.txt"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.29.0",
+    "jest": "^27.0.6",
+    "prettier": "2.8.8"
+  },
+  "dependencies": {
+    "@azure/graph": "^5.0.3",
+    "@azure/identity": "^3.2.3"
+  }
+}

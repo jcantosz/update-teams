@@ -32,10 +32,10 @@ write my-org/other-repo
 Where permission can be set to `read|pull`, `triage`, `write|push`, `maintain`, `admin`
 
 ### users
-A list of user ids to add to the team. Each user should be on its own line
+A list of username to add to the team. Each user should be on its own line
 ```
-<user id>
-<user id>
+<username>
+<username>
 ```
 ex.
 ```
