@@ -3,13 +3,13 @@ name: Sync Team Users
 description: Sync team users based on users listed in a file for a team
 
 inputs:
-  azure_tenant_id:
+  tenant_id:
     description: "The azure tenant id"
     required: true
-  azure_client_id:
+  client_id:
     description: "The azure client id"
     required: true
-  azure_client_secret:
+  client_secret:
     description: "The azure client secret"
     required: true
   continue_on_errors:

@@ -12,8 +12,10 @@ const {
   logError,
 } = require("./src/utils");
 
-const { GraphRbacManagementClient } = require("@azure/graph");
+//const { GraphRbacManagementClient } = require("@azure/graph");
+const { GraphClient } = require("@microsoft/microsoft-graph-client");
 const { AuthorizerFactory } = require("azure-actions-webclient");
+const msal = require("@azure/msal-node");
 
 // Load configuration from environment variables.
 // const tenantId = process.env.INPUT_AZURE_TENANT_ID;
@@ -31,7 +33,8 @@ async function main() {
   const authorizerFactory = new AuthorizerFactory();
   //authorizerFactory.getTenantId()?
   //process.env.AZURE_TENANT_ID
-  const client = new GraphRbacManagementClient(authorizerFactory, process.env.AZURE_TENANT_ID);
+  const client = new GraphClient(authorizerFactory, process.env.AZURE_TENANT_ID);
+  //const client = new GraphRbacManagementClient(authorizerFactory, process.env.AZURE_TENANT_ID);
 
   // Get the list of groups to sync.
   const groups = await getGroups(client);
