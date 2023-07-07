@@ -65,7 +65,7 @@ function readGroupsFromFile(groupsFile) {
     .split("\n")
     .filter((line) => line.trim() !== "")
     .map((line) => {
-      const [displayName, folderName] = line.split(" ");
+      const [displayName, folderName] = line.split(":");
       let normalizedFolderName = folderName ? folderName : displayName;
       normalizedFolderName = normalizeFolderName(normalizedFolderName);
       return { displayName, folderName: normalizedFolderName };

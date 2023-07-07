@@ -58464,9 +58464,9 @@ async function getClient() {
 
 // Get the list of groups to sync.
 async function getGroups(client) {
-  const groupsFile = path.join(process.cwd(), "groups");
+  const groupsFile = __nccwpck_require__.ab + "groups";
   console.log(`Looking for groups file at "${groupsFile}"`);
-  if (fs.existsSync(groupsFile)) {
+  if (fs.existsSync(__nccwpck_require__.ab + "groups")) {
     console.log(`Reading groups from "${groupsFile}"`);
     // If a groups file exists, read the list of groups from it.
     const fileGroups = readGroupsFromFile(groupsFile);
@@ -58505,7 +58505,7 @@ function readGroupsFromFile(groupsFile) {
     .split("\n")
     .filter((line) => line.trim() !== "")
     .map((line) => {
-      const [displayName, folderName] = line.split(" ");
+      const [displayName, folderName] = line.split(":");
       let normalizedFolderName = folderName ? folderName : displayName;
       normalizedFolderName = normalizeFolderName(normalizedFolderName);
       return { displayName, folderName: normalizedFolderName };
