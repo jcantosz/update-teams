@@ -1,25 +1,61 @@
-const { ClientSecretCredential } = require("@azure/identity");
-const { GraphRbacManagementClient } = require("@azure/graph");
+// const { ClientSecretCredential } = require("@azure/identity");
+// const { GraphRbacManagementClient } = require("@azure/graph");
+require("isomorphic-fetch"); // or import the fetch polyfill you installed
+const { Client } = require("@microsoft/microsoft-graph-client");
+const { TokenCredentialAuthenticationProvider } = require("@microsoft/microsoft-graph-client/authProviders/azureTokenCredentials");
+const { DefaultAzureCredential } = require("@azure/identity");
 const fs = require("fs");
 const path = require("path");
 
-async function getCredentials(tenantId, clientId, clientSecret) {
+async function getClient() {
   // Create a new instance of the GraphRbacManagementClient using the Azure Identity library.
-  const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-  const client = new GraphRbacManagementClient(credential, tenantId);
-  return client;
+  // const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+  // const client = new GraphRbacManagementClient(credential, tenantId);
+  // return client;
+
+  const credential = new DefaultAzureCredential();
+  // Create an instance of the TokenCredentialAuthenticationProvider by passing the tokenCredential instance and options to the constructor
+  const authProvider = new TokenCredentialAuthenticationProvider(credential, {
+    scopes: ["https://graph.microsoft.com/.default"],
+    //scopes: ["User.Read.All", "Groups.Read.All", "GroupsMember.Read.All"],
+  });
+  return Client.initWithMiddleware({ authProvider: authProvider });
 }
 
 // Get the list of groups to sync.
 async function getGroups(client) {
-  const groupsFile = path.join(__dirname, "groups");
+  const groupsFile = path.join(process.cwd(), "groups");
+  console.log(`Looking for groups file at "${groupsFile}"`);
   if (fs.existsSync(groupsFile)) {
+    console.log(`Reading groups from "${groupsFile}"`);
     // If a groups file exists, read the list of groups from it.
-    return readGroupsFromFile(groupsFile);
+    const fileGroups = readGroupsFromFile(groupsFile);
+    return addGroupIdsToFileGroup(client, fileGroups);
   } else {
     // Otherwise, get the list of groups from Azure AD.
+    console.debug("Reading ALL groups from Azure AD");
     return getGroupsFromAzureAD(client);
   }
+}
+
+// Get group ID for each group from file
+async function addGroupIdsToFileGroup(client, groups) {
+  let returnGroups = [];
+  for (let group of groups) {
+    const groupObject = await getGroup(client, group.displayName);
+    if (groupObject) {
+      group["id"] = groupObject["id"];
+      returnGroups.push(group);
+    } else {
+      throw new Error(`Group "${group.displayName}" not found in Azure AD`);
+    }
+  }
+  return returnGroups;
+}
+
+function normalizeFolderName(folderName) {
+  //replace all non-alphanumeric characters with hyphens, convert to lowercase
+  return folderName.replace(/\W+/g, "-").toLowerCase();
 }
 
 // Read the list of groups from a file.
@@ -30,34 +66,56 @@ function readGroupsFromFile(groupsFile) {
     .filter((line) => line.trim() !== "")
     .map((line) => {
       const [displayName, folderName] = line.split(" ");
-      return { displayName, folderName };
+      let normalizedFolderName = folderName ? folderName : displayName;
+      normalizedFolderName = normalizeFolderName(normalizedFolderName);
+      return { displayName, folderName: normalizedFolderName };
     });
 }
 
 // Get the list of groups from Azure AD.
 async function getGroupsFromAzureAD(client) {
-  const groups = await client.groups.list();
-  return groups.map((group) => ({ displayName: group.displayName }));
+  const groups = await client.api("/groups/").select("id,displayName").get();
+  //add property folderName to each group
+  groups.value.map((group) => {
+    //replace all non-alphanumeric characters with hyphens, convert to lowercase
+    group.folderName = normalizeFolderName(group.displayName);
+  });
+  return groups.value;
 }
 
 // Get the Azure AD group object for the specified group name.
 async function getGroup(client, groupName) {
-  return client.groups.get(groupName);
+  const group = await client.api(`/groups/`).header("ConsistencyLevel", "eventual").search(`"displayName:${groupName}"`).select("id").get();
+  if (group.value.length > 1) {
+    throw new Error(`Multiple groups found with name ${groupName}`);
+  }
+  return group.value[0];
 }
 
 // Get the list of users in the specified group.
-async function getUsers(client, groupId) {
-  return client.users.list(groupId);
+async function getGroupMembers(client, groupId) {
+  const groupMembers = await client.api(`/groups/${groupId}/members`).select("userPrincipalName").get();
+  // convert each userPrincipalName to GitHub username
+  groupMembers.value.map((user) => {
+    //Remove email address domain, replace all non-alphanumeric characters with hyphens, convert to lowercase
+    user.userPrincipalName = user.userPrincipalName
+      .split("@")[0]
+      .replace(/[^a-zA-Z0-9]/g, "-")
+      .toLowerCase();
+  });
+
+  return groupMembers.value;
 }
 
 // Convert the list of users to a newline-separated string.
-function getUsersList(users) {
-  return users.map((user) => user.displayName.replace(/\s+/g, "-").toLowerCase()).join("\n");
+function getMembersList(members) {
+  return members.map((user) => user.userPrincipalName).join("\n");
+  //return users.map((user) => user.displayName.replace(/\s+/g, "-").toLowerCase()).join("\n");
 }
 
 // Get the directory path for the specified group.
 function getGroupDirectory(group) {
-  return path.join(__dirname, group.folderName || group.displayName);
+  return path.join(process.cwd(), group.folderName);
 }
 
 // Create a directory if it doesn't already exist.
@@ -78,8 +136,8 @@ function writeUserListToFile(filePath, userList) {
 }
 
 // Log the contents of the user list file (for dry runs).
-function logDryRun(filePath, userList) {
-  console.log(`Writing file ${filePath} with contents:\n${userList}`);
+function logDryRun(message) {
+  console.log(`DRY RUN: ${message} SKIPPED`);
 }
 
 // Log an error message.
@@ -88,11 +146,11 @@ function logError(groupName, error) {
 }
 
 module.exports = {
-  getCredentials,
+  getClient,
   getGroups,
   getGroup,
-  getUsers,
-  getUsersList,
+  getGroupMembers,
+  getMembersList,
   getGroupDirectory,
   createDirectory,
   getUserListPath,

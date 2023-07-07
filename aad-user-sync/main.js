@@ -1,9 +1,8 @@
 const {
-  getCredentials,
+  getClient,
   getGroups,
-  getGroup,
-  getUsers,
-  getUsersList,
+  getGroupMembers,
+  getMembersList,
   getGroupDirectory,
   createDirectory,
   getUserListPath,
@@ -12,29 +11,16 @@ const {
   logError,
 } = require("./src/utils");
 
-//const { GraphRbacManagementClient } = require("@azure/graph");
-const { GraphClient } = require("@microsoft/microsoft-graph-client");
-const { AuthorizerFactory } = require("azure-actions-webclient");
-const msal = require("@azure/msal-node");
-
-// Load configuration from environment variables.
-// const tenantId = process.env.INPUT_AZURE_TENANT_ID;
-// const clientId = process.env.INPUT_AZURE_CLIENT_ID;
-// const clientSecret = process.env.INPUT_AZURE_CLIENT_SECRET;
-
 // Load additional configuration from environment variables.
 const continueOnErrors = process.env.INPUT_CONTINUE_ON_ERRORS === "true";
 const dryRun = process.env.INPUT_DRY_RUN === "true";
 
 // Main function that syncs the list of users in each group to a local file.
 async function main() {
-  // const client = getCredentials(tenantId, clientId, clientSecret);
-  //const client = await AuthorizerFactory.getAuthorizer();
-  const authorizerFactory = new AuthorizerFactory();
-  //authorizerFactory.getTenantId()?
-  //process.env.AZURE_TENANT_ID
-  const client = new GraphClient(authorizerFactory, process.env.AZURE_TENANT_ID);
-  //const client = new GraphRbacManagementClient(authorizerFactory, process.env.AZURE_TENANT_ID);
+  if (dryRun) {
+    console.log("Dry run enabled. No changes will be made.");
+  }
+  const client = await getClient();
 
   // Get the list of groups to sync.
   const groups = await getGroups(client);
@@ -42,26 +28,32 @@ async function main() {
   // Iterate over each group and sync its user list to a local file.
   for (const group of groups) {
     try {
-      // Get the Azure AD group object.
-      const groupObj = await getGroup(client, group.displayName);
+      console.log(`---\nProcessing group "${group.displayName}"...`);
 
       // Get the list of users in the group.
-      const users = await getUsers(client, groupObj.objectId);
-
+      console.log(`\tGetting members for group "${group.displayName}"...`);
+      const users = await getGroupMembers(client, group.id);
       // Convert the list of users to a newline-separated string.
-      const userList = getUsersList(users);
+      console.log(`\tConverting members array to string for group "${group.displayName}"...`);
+      const userList = getMembersList(users);
 
       // Create a directory for the group if it doesn't already exist.
       const groupDir = getGroupDirectory(group);
-      createDirectory(groupDir);
+      if (dryRun) {
+        // If this is a dry run, log the directory path instead of creating it.
+        logDryRun(`Creating directory "${groupDir}"...`);
+      } else {
+        createDirectory(groupDir);
+      }
 
-      // Write the user list to a file in the group directory.
-      const userListPath = getUserListPath(groupDir);
       if (dryRun) {
         // If this is a dry run, log the contents of the file instead of writing it.
-        logDryRun(userListPath, userList);
+        logDryRun(`Writing file "${groupDir}/users"\ncontents: \n${userList}\n`);
       } else {
+        // Write the user list to a file in the group directory.
+        const userListPath = getUserListPath(groupDir);
         // Otherwise, write the file to disk.
+        console.log(`\tWriting file ${userListPath}...`);
         writeUserListToFile(userListPath, userList);
       }
     } catch (error) {
