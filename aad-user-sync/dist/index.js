@@ -58447,6 +58447,8 @@ const { DefaultAzureCredential } = __nccwpck_require__(3084);
 const fs = __nccwpck_require__(5747);
 const path = __nccwpck_require__(5622);
 
+const workdir = process.env.GITHUB_WORKSPACE || process.cwd();
+
 async function getClient() {
   // Create a new instance of the GraphRbacManagementClient using the Azure Identity library.
   // const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
@@ -58464,9 +58466,9 @@ async function getClient() {
 
 // Get the list of groups to sync.
 async function getGroups(client) {
-  const groupsFile = __nccwpck_require__.ab + "groups";
+  const groupsFile = path.join(workdir, "groups");
   console.log(`Looking for groups file at "${groupsFile}"`);
-  if (fs.existsSync(__nccwpck_require__.ab + "groups")) {
+  if (fs.existsSync(groupsFile)) {
     console.log(`Reading groups from "${groupsFile}"`);
     // If a groups file exists, read the list of groups from it.
     const fileGroups = readGroupsFromFile(groupsFile);
@@ -58555,7 +58557,7 @@ function getMembersList(members) {
 
 // Get the directory path for the specified group.
 function getGroupDirectory(group) {
-  return path.join(process.cwd(), group.folderName);
+  return path.join(workdir, group.folderName);
 }
 
 // Create a directory if it doesn't already exist.

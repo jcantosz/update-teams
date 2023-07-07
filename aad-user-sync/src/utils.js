@@ -7,6 +7,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const fs = require("fs");
 const path = require("path");
 
+const workdir = process.env.GITHUB_WORKSPACE || process.cwd();
+
 async function getClient() {
   // Create a new instance of the GraphRbacManagementClient using the Azure Identity library.
   // const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
@@ -24,7 +26,7 @@ async function getClient() {
 
 // Get the list of groups to sync.
 async function getGroups(client) {
-  const groupsFile = path.join(process.cwd(), "groups");
+  const groupsFile = path.join(workdir, "groups");
   console.log(`Looking for groups file at "${groupsFile}"`);
   if (fs.existsSync(groupsFile)) {
     console.log(`Reading groups from "${groupsFile}"`);
@@ -115,7 +117,7 @@ function getMembersList(members) {
 
 // Get the directory path for the specified group.
 function getGroupDirectory(group) {
-  return path.join(process.cwd(), group.folderName);
+  return path.join(workdir, group.folderName);
 }
 
 // Create a directory if it doesn't already exist.
