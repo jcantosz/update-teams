@@ -12,6 +12,30 @@ Before you can use this program, you need to have the following:
 1. User.Read.All (Delegated permission)
 1. The TENANT_ID, CLIENT_ID, and CLIENT_SECRET environment variables set to the appropriate values for your Azure AD application
 
+## Run in GitHub Actions
+
+In Azure: Azure AD > Roles and Administrators > User administrator (if on basic subscription, custom role otherwise) -- assign role to OIDC app
+
+```yaml
+jobs:
+  sync-aad-usersrepos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: "Az CLI login"
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Sync users from AAD
+        uses: jcantosz/update-teams/aad-user-sync@feat/azure-ad
+        with:
+          dry_run: "true"
+```
+
 ## Installation
 
 To install this program, follow these steps:
