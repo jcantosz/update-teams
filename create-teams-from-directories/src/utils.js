@@ -40,7 +40,7 @@ function createTeams(octokit, organizationName, teams) {
 async function createTeam(octokit, organizationName, teamName) {
   // Create teams if not  a dry run, otherwise log the team name
   if (!process.env.INPUT_DRY_RUN) {
-    console.log(`Creating team ${team}`);
+    console.log(`Creating team "${team}"`);
     const team = await octokit.rest.teams.create({
       org: organizationName,
       name: teamName,
