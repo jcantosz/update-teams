@@ -1,0 +1,34 @@
+name: Create teams from directories
+
+description: Create teams in an organization for any directory that hasa file called "users" or "repositories" if that team does not exist
+
+inputs:
+  app_id:
+    description: "The app id authentication"
+    required: true
+  private_key:
+    description: "The private key to use for authentication"
+    required: true
+  client_id:
+    description: "The client id to use for authentication"
+    required: true
+  client_secret:
+    description: "The client secret to use for authentication"
+    required: true
+  installation_id:
+    description: "The installation id to use for authentication"
+    required: true
+  organization_name:
+    description: "The organization name to create the teams under"
+    required: true
+  github_api_url:
+    description: "The url where github's API is located"
+    required: false
+    default: "https://api.github.com"
+  dry_run:
+    description: "Prevent executing commands that would make changes to GitHub"
+    required: false
+
+runs:
+  using: "node16"
+  main: "dist/index.js"
