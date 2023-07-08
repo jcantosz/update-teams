@@ -63,6 +63,7 @@ Where permission can be set to `read|pull`, `triage`, `write|push`, `maintain`, 
 
 A list of username to add to the team. Each user should be on its own line
 
+
 ```
 <username>
 <username>
