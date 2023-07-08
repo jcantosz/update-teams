@@ -78,11 +78,8 @@ describe("getGroupMembers", () => {
     expect(members[2].userPrincipalName).toBe("user-3");
   });
 });
-           nnb cccxx//
-           nnb c
-           nnb c
-           nnb c
-           describe("getMembe              ........................xx                                                                      nnn bnmcv m   nrsList", () => {
+
+describe("getMembersList", () => {
   test("returns a newline-separated string of userPrincipalNames", () => {
     const members = [{ userPrincipalName: "user1@example.com" }, { userPrincipalName: "user2@example.com" }];
     const membersList = getMembersList(members);
