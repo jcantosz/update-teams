@@ -42,11 +42,15 @@ jobs:
       - name: Build dist
         run: npm run build
 
+      # tar all of dist so when we try to extract it, we dont need to move files around
+      - name: tar dir
+        run: tar cvzf dist.tar dist
+
       - name: upload-artifacts
         uses: actions/upload-artifact@v3
         with:
           name: "${{ matrix.build-dir }}"
-          path: "${{ matrix.build-dir }}/dist/"
+          path: "${{ matrix.build-dir }}/dist.tar"
           retention-days: 5
 
   pushback:
@@ -57,6 +61,16 @@ jobs:
         uses: actions/checkout@v3
       - name: Download artifacts
         uses: actions/download-artifact@v3
+      - name: move files
+        run: |
+          base_dir=$PWD
+          for dir in */; do
+            #prettier-ignore
+            cd $dir
+            tar xvzf dist.tar
+            rm -f dist.tar
+            cd $base_dir
+          done
       - name: Check status
         run: |
           git config --global user.email "actions@github.com"
