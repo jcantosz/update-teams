@@ -1,6 +1,6 @@
-name: Sync Team Repositories
+name: Create teams from directories
 
-description: Sync team repositories for an organization based on permissions & repositories defined in a file for a team
+description: Create teams in an organization for any directory that hasa file called "users" or "repositories" if that team does not exist
 
 inputs:
   app_id:
@@ -13,7 +13,7 @@ inputs:
     description: "The installation id to use for authentication"
     required: true
   organization_name:
-    description: "The organization name to sync teams under"
+    description: "The organization name to create the teams under"
     required: true
   github_api_url:
     description: "The url where github's API is located"

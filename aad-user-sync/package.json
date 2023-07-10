@@ -1,0 +1,21 @@
+{
+  "name": "azure-ad-group-sync",
+  "version": "1.0.0",
+  "description": "Loops through groups in Azure AD and creates files representing their users",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest",
+    "pretest": "npm ci",
+    "build": "ncc build main.js --license licenses.txt"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.29.0",
+    "jest": "^27.0.6",
+    "prettier": "2.8.8"
+  },
+  "dependencies": {
+    "@azure/identity": "^3.2.3",
+    "@microsoft/microsoft-graph-client": "^3.0.5",
+    "isomorphic-fetch": "^3.0.0"
+  }
+}

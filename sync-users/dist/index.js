@@ -33110,11 +33110,9 @@ function createAppAuthWithEnv() {
     auth: {
       appId: process.env.INPUT_APP_ID,
       privateKey: process.env.INPUT_PRIVATE_KEY,
-      clientId: process.env.INPUT_CLIENT_ID,
-      clientSecret: process.env.INPUT_CLIENT_SECRET,
       installationId: process.env.INPUT_INSTALLATION_ID,
     },
-    base_url: process.env.INPUT_GITHUB_API_URL || "https://api.github.com",
+    baseUrl: process.env.INPUT_GITHUB_API_URL || "https://api.github.com",
   };
 }
 
@@ -33165,11 +33163,16 @@ function getUsersFromFile(teamName) {
  */
 async function getUsersFromTeam(octokit, organizationName, teamName) {
   console.log(`Getting users for ${teamName}`);
-  const users = await octokit.rest.teams.listMembersInOrg({
-    org: organizationName,
-    team_slug: teamName,
-  });
-  return users.data.map((user) => user.login);
+  const users = await octokit.paginate(
+    octokit.rest.teams.listMembersInOrg,
+    {
+      org: organizationName,
+      team_slug: teamName,
+    },
+    (response) => response.data.map((user) => user.login)
+  );
+  return users;
+  //users.data.map((user) => user.login);
 }
 
 function userInList(username, userList) {
@@ -33180,7 +33183,6 @@ function addUser(username, teamUsers, teamName) {
   if (userInList(username, teamUsers)) {
     return false;
   }
-  console.log(`Adding ${username} as a member of ${teamName}`);
   return true;
 }
 
@@ -33191,12 +33193,20 @@ async function addUsersToTeam(octokit, organizationName, teamName, teamUsers, us
   for (const username of userList) {
     if (addUser(username, teamUsers, teamName)) {
       if (!process.env.INPUT_DRY_RUN) {
+        console.log(`Adding ${username} as a member of ${teamName}`);
         // Add the user to the corresponding team with the specified permission level
-        await octokit.teams.addOrUpdateMembershipForUserInOrg({
-          org: organizationName,
-          team_slug: teamName,
-          username: username,
-        });
+        try {
+          await octokit.teams.addOrUpdateMembershipForUserInOrg({
+            org: organizationName,
+            team_slug: teamName,
+            username: username,
+          });
+        } catch (error) {
+          console.log(`Skipping adding "${username}" to "${teamName}". Encountered error. Does the user exist?`);
+          if (process.env.ACTIONS_STEP_DEBUG == "true") {
+            console.log(error);
+          }
+        }
       } else {
         console.log("Dry run: Skipping execution");
       }

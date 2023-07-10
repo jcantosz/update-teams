@@ -1,5 +1,5 @@
 {
-  "name": "sync-users",
+  "name": "create-teams-from-directories",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -10,11 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@octokit/auth-app": "^5.0.6",
+    "@octokit/auth-app": "^6.0.0",
     "@octokit/rest": "^19.0.13"
-  },
-  "devDependencies": {
-    "jest": "^29.5.0",
-    "prettier": "2.8.8"
   }
 }

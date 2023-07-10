@@ -1,0 +1,25 @@
+name: Sync Team Users
+
+description: Sync team users based on users listed in a file for a team
+
+inputs:
+  # tenant_id:
+  #   description: "The azure tenant id"
+  #   required: true
+  # client_id:
+  #   description: "The azure client id"
+  #   required: true
+  # client_secret:
+  #   description: "The azure client secret"
+  #   required: true
+  continue_on_errors:
+    description: "If errors should be ignored"
+    required: false
+    default: "true"
+  dry_run:
+    description: "Prevent executing commands that would make changes to GitHub/the repo"
+    required: false
+
+runs:
+  using: "node16"
+  main: "dist/index.js"

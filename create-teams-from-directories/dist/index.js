@@ -436,7 +436,7 @@ async function sendRequestWithRetries(state, request, options, createdAt, retrie
 }
 
 // pkg/dist-src/version.js
-var VERSION = "5.0.6";
+var VERSION = "6.0.0";
 
 // pkg/dist-src/index.js
 var import_auth_oauth_user2 = __nccwpck_require__(9263);
@@ -529,7 +529,7 @@ module.exports = __toCommonJS(dist_src_exports);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "8.0.1";
+var VERSION = "9.0.0";
 
 // pkg/dist-src/defaults.js
 var userAgent = `octokit-endpoint.js/${VERSION} ${(0, import_universal_user_agent.getUserAgent)()}`;
@@ -990,7 +990,7 @@ var import_endpoint = __nccwpck_require__(4651);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "7.0.1";
+var VERSION = "8.0.2";
 
 // pkg/dist-src/fetch-wrapper.js
 var import_is_plain_object = __nccwpck_require__(6765);
@@ -1020,23 +1020,15 @@ function fetchWrapper(requestOptions) {
       'Global "fetch" not found. Please provide `options.request.fetch` to octokit or upgrade to node@18 or newer.'
     );
   }
-  return fetch(
-    requestOptions.url,
-    Object.assign(
-      {
-        method: requestOptions.method,
-        body: requestOptions.body,
-        headers: requestOptions.headers,
-        redirect: requestOptions.redirect,
-        // duplex must be set if request.body is ReadableStream or Async Iterables.
-        // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
-        ...requestOptions.body && { duplex: "half" }
-      },
-      // `requestOptions.request.agent` type is incompatible
-      // see https://github.com/octokit/types.ts/pull/264
-      requestOptions.request
-    )
-  ).then(async (response) => {
+  return fetch(requestOptions.url, {
+    method: requestOptions.method,
+    body: requestOptions.body,
+    headers: requestOptions.headers,
+    signal: requestOptions.signal,
+    // duplex must be set if request.body is ReadableStream or Async Iterables.
+    // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
+    ...requestOptions.body && { duplex: "half" }
+  }).then(async (response) => {
     url = response.url;
     status = response.status;
     for (const keyAndValue of response.headers) {
@@ -1279,7 +1271,7 @@ async function hook(state, request2, route, parameters) {
 }
 
 // pkg/dist-src/version.js
-var VERSION = "6.0.1";
+var VERSION = "7.0.0";
 
 // pkg/dist-src/index.js
 var import_auth_oauth_user3 = __nccwpck_require__(9263);
@@ -1339,7 +1331,7 @@ module.exports = __toCommonJS(dist_src_exports);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "8.0.1";
+var VERSION = "9.0.0";
 
 // pkg/dist-src/defaults.js
 var userAgent = `octokit-endpoint.js/${VERSION} ${(0, import_universal_user_agent.getUserAgent)()}`;
@@ -1800,7 +1792,7 @@ var import_endpoint = __nccwpck_require__(7059);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "7.0.1";
+var VERSION = "8.0.2";
 
 // pkg/dist-src/fetch-wrapper.js
 var import_is_plain_object = __nccwpck_require__(6765);
@@ -1830,23 +1822,15 @@ function fetchWrapper(requestOptions) {
       'Global "fetch" not found. Please provide `options.request.fetch` to octokit or upgrade to node@18 or newer.'
     );
   }
-  return fetch(
-    requestOptions.url,
-    Object.assign(
-      {
-        method: requestOptions.method,
-        body: requestOptions.body,
-        headers: requestOptions.headers,
-        redirect: requestOptions.redirect,
-        // duplex must be set if request.body is ReadableStream or Async Iterables.
-        // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
-        ...requestOptions.body && { duplex: "half" }
-      },
-      // `requestOptions.request.agent` type is incompatible
-      // see https://github.com/octokit/types.ts/pull/264
-      requestOptions.request
-    )
-  ).then(async (response) => {
+  return fetch(requestOptions.url, {
+    method: requestOptions.method,
+    body: requestOptions.body,
+    headers: requestOptions.headers,
+    signal: requestOptions.signal,
+    // duplex must be set if request.body is ReadableStream or Async Iterables.
+    // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
+    ...requestOptions.body && { duplex: "half" }
+  }).then(async (response) => {
     url = response.url;
     status = response.status;
     for (const keyAndValue of response.headers) {
@@ -2110,7 +2094,7 @@ async function hook(state, request, route, parameters) {
 }
 
 // pkg/dist-src/version.js
-var VERSION = "5.0.2";
+var VERSION = "6.0.0";
 
 // pkg/dist-src/index.js
 function createOAuthDeviceAuth(options) {
@@ -2184,7 +2168,7 @@ module.exports = __toCommonJS(dist_src_exports);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "8.0.1";
+var VERSION = "9.0.0";
 
 // pkg/dist-src/defaults.js
 var userAgent = `octokit-endpoint.js/${VERSION} ${(0, import_universal_user_agent.getUserAgent)()}`;
@@ -2645,7 +2629,7 @@ var import_endpoint = __nccwpck_require__(7878);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "7.0.1";
+var VERSION = "8.0.2";
 
 // pkg/dist-src/fetch-wrapper.js
 var import_is_plain_object = __nccwpck_require__(6765);
@@ -2675,23 +2659,15 @@ function fetchWrapper(requestOptions) {
       'Global "fetch" not found. Please provide `options.request.fetch` to octokit or upgrade to node@18 or newer.'
     );
   }
-  return fetch(
-    requestOptions.url,
-    Object.assign(
-      {
-        method: requestOptions.method,
-        body: requestOptions.body,
-        headers: requestOptions.headers,
-        redirect: requestOptions.redirect,
-        // duplex must be set if request.body is ReadableStream or Async Iterables.
-        // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
-        ...requestOptions.body && { duplex: "half" }
-      },
-      // `requestOptions.request.agent` type is incompatible
-      // see https://github.com/octokit/types.ts/pull/264
-      requestOptions.request
-    )
-  ).then(async (response) => {
+  return fetch(requestOptions.url, {
+    method: requestOptions.method,
+    body: requestOptions.body,
+    headers: requestOptions.headers,
+    signal: requestOptions.signal,
+    // duplex must be set if request.body is ReadableStream or Async Iterables.
+    // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
+    ...requestOptions.body && { duplex: "half" }
+  }).then(async (response) => {
     url = response.url;
     status = response.status;
     for (const keyAndValue of response.headers) {
@@ -2866,7 +2842,7 @@ var import_universal_user_agent = __nccwpck_require__(5489);
 var import_request = __nccwpck_require__(297);
 
 // pkg/dist-src/version.js
-var VERSION = "3.0.1";
+var VERSION = "4.0.0";
 
 // pkg/dist-src/get-authentication.js
 var import_auth_oauth_device = __nccwpck_require__(8765);
@@ -3104,7 +3080,7 @@ module.exports = __toCommonJS(dist_src_exports);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "8.0.1";
+var VERSION = "9.0.0";
 
 // pkg/dist-src/defaults.js
 var userAgent = `octokit-endpoint.js/${VERSION} ${(0, import_universal_user_agent.getUserAgent)()}`;
@@ -3565,7 +3541,7 @@ var import_endpoint = __nccwpck_require__(2173);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "7.0.1";
+var VERSION = "8.0.2";
 
 // pkg/dist-src/fetch-wrapper.js
 var import_is_plain_object = __nccwpck_require__(6765);
@@ -3595,23 +3571,15 @@ function fetchWrapper(requestOptions) {
       'Global "fetch" not found. Please provide `options.request.fetch` to octokit or upgrade to node@18 or newer.'
     );
   }
-  return fetch(
-    requestOptions.url,
-    Object.assign(
-      {
-        method: requestOptions.method,
-        body: requestOptions.body,
-        headers: requestOptions.headers,
-        redirect: requestOptions.redirect,
-        // duplex must be set if request.body is ReadableStream or Async Iterables.
-        // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
-        ...requestOptions.body && { duplex: "half" }
-      },
-      // `requestOptions.request.agent` type is incompatible
-      // see https://github.com/octokit/types.ts/pull/264
-      requestOptions.request
-    )
-  ).then(async (response) => {
+  return fetch(requestOptions.url, {
+    method: requestOptions.method,
+    body: requestOptions.body,
+    headers: requestOptions.headers,
+    signal: requestOptions.signal,
+    // duplex must be set if request.body is ReadableStream or Async Iterables.
+    // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
+    ...requestOptions.body && { duplex: "half" }
+  }).then(async (response) => {
     url = response.url;
     status = response.status;
     for (const keyAndValue of response.headers) {
@@ -4628,7 +4596,7 @@ __export(dist_src_exports, {
 module.exports = __toCommonJS(dist_src_exports);
 
 // pkg/dist-src/version.js
-var VERSION = "3.0.1";
+var VERSION = "4.0.0";
 
 // pkg/dist-src/get-web-flow-authorization-url.js
 var import_oauth_authorization_url = __nccwpck_require__(5921);
@@ -4986,7 +4954,7 @@ module.exports = __toCommonJS(dist_src_exports);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "8.0.1";
+var VERSION = "9.0.0";
 
 // pkg/dist-src/defaults.js
 var userAgent = `octokit-endpoint.js/${VERSION} ${(0, import_universal_user_agent.getUserAgent)()}`;
@@ -5447,7 +5415,7 @@ var import_endpoint = __nccwpck_require__(4934);
 var import_universal_user_agent = __nccwpck_require__(5489);
 
 // pkg/dist-src/version.js
-var VERSION = "7.0.1";
+var VERSION = "8.0.2";
 
 // pkg/dist-src/fetch-wrapper.js
 var import_is_plain_object = __nccwpck_require__(6765);
@@ -5477,23 +5445,15 @@ function fetchWrapper(requestOptions) {
       'Global "fetch" not found. Please provide `options.request.fetch` to octokit or upgrade to node@18 or newer.'
     );
   }
-  return fetch(
-    requestOptions.url,
-    Object.assign(
-      {
-        method: requestOptions.method,
-        body: requestOptions.body,
-        headers: requestOptions.headers,
-        redirect: requestOptions.redirect,
-        // duplex must be set if request.body is ReadableStream or Async Iterables.
-        // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
-        ...requestOptions.body && { duplex: "half" }
-      },
-      // `requestOptions.request.agent` type is incompatible
-      // see https://github.com/octokit/types.ts/pull/264
-      requestOptions.request
-    )
-  ).then(async (response) => {
+  return fetch(requestOptions.url, {
+    method: requestOptions.method,
+    body: requestOptions.body,
+    headers: requestOptions.headers,
+    signal: requestOptions.signal,
+    // duplex must be set if request.body is ReadableStream or Async Iterables.
+    // See https://fetch.spec.whatwg.org/#dom-requestinit-duplex.
+    ...requestOptions.body && { duplex: "half" }
+  }).then(async (response) => {
     url = response.url;
     status = response.status;
     for (const keyAndValue of response.headers) {
@@ -8987,17 +8947,13 @@ module.exports = function (jwt, options) {
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 module.exports = {
+  decode: __nccwpck_require__(4475),
   verify: __nccwpck_require__(7685),
   sign: __nccwpck_require__(7292),
   JsonWebTokenError: __nccwpck_require__(6418),
   NotBeforeError: __nccwpck_require__(6409),
   TokenExpiredError: __nccwpck_require__(8862),
 };
-
-Object.defineProperty(module.exports, "decode", ({
-  enumerable: false,
-  value: __nccwpck_require__(4475),
-}));
 
 
 /***/ }),
@@ -29425,8 +29381,11 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 
 		if (headers['transfer-encoding'] === 'chunked' && !headers['content-length']) {
 			response.once('close', function (hadError) {
+				// tests for socket presence, as in some situations the
+				// the 'socket' event is not triggered for the request
+				// (happens in deno), avoids `TypeError`
 				// if a data listener is still present we didn't end cleanly
-				const hasDataListener = socket.listenerCount('data') > 0;
+				const hasDataListener = socket && socket.listenerCount('data') > 0;
 
 				if (hasDataListener && !hadError) {
 					const err = new Error('Premature close');
@@ -29784,7 +29743,7 @@ class Range {
     this.set = this.raw
       .split('||')
       // map the range to a 2d array of comparators
-      .map(r => this.parseRange(r))
+      .map(r => this.parseRange(r.trim()))
       // throw out any comparator lists that are empty
       // this generally means that it was not a valid range, which is allowed
       // in loose mode, but will still throw if the WHOLE range is invalid.
@@ -30921,7 +30880,7 @@ module.exports = major
 
 /***/ }),
 
-/***/ 9384:
+/***/ 1017:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const SemVer = __nccwpck_require__(8096)
@@ -31061,7 +31020,7 @@ const clean = __nccwpck_require__(7788)
 const inc = __nccwpck_require__(9469)
 const diff = __nccwpck_require__(8120)
 const major = __nccwpck_require__(9496)
-const minor = __nccwpck_require__(9384)
+const minor = __nccwpck_require__(1017)
 const patch = __nccwpck_require__(8783)
 const prerelease = __nccwpck_require__(9790)
 const compare = __nccwpck_require__(742)
@@ -31256,7 +31215,11 @@ module.exports = parseOptions
 /***/ 8242:
 /***/ ((module, exports, __nccwpck_require__) => {
 
-const { MAX_SAFE_COMPONENT_LENGTH, MAX_SAFE_BUILD_LENGTH } = __nccwpck_require__(28)
+const {
+  MAX_SAFE_COMPONENT_LENGTH,
+  MAX_SAFE_BUILD_LENGTH,
+  MAX_LENGTH,
+} = __nccwpck_require__(28)
 const debug = __nccwpck_require__(5673)
 exports = module.exports = {}
 
@@ -31277,7 +31240,7 @@ const LETTERDASHNUMBER = '[a-zA-Z0-9-]'
 // all input should have extra whitespace removed.
 const safeRegexReplacements = [
   ['\\s', 1],
-  ['\\d', MAX_SAFE_COMPONENT_LENGTH],
+  ['\\d', MAX_LENGTH],
   [LETTERDASHNUMBER, MAX_SAFE_BUILD_LENGTH],
 ]
 
@@ -35168,158 +35131,62 @@ module.exports = {
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const fs = __nccwpck_require__(7147);
-const path = __nccwpck_require__(1017);
+const path = __nccwpck_require__(4822);
 
-/**
- * Gets a list of all directories in the current directory.
- */
-function getDirectories() {
-  return fs
-    .readdirSync(".", { withFileTypes: true })
+const workdir = process.env.GITHUB_WORKSPACE || process.cwd();
+
+function getTeamDirectories() {
+  //get all directory names that contain the file repositories or users
+  const directories = fs
+    .readdirSync(workdir, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
+    .filter((dirent) => {
+      return (
+        fs.existsSync(path.join(workdir, dirent.name, "repositories")) ||
+        fs.existsSync(path.join(workdir, dirent.name, "users"))
+      );
+    })
     .map((dirent) => dirent.name);
+  return directories;
+}
+async function getTeams(octokit, organizationName) {
+  const teams = await octokit.paginate(octokit.rest.teams.list, {
+    org: organizationName,
+  });
+  return teams.map((team) => team.name);
 }
 
-/**
- * Gets the path to the repositories file for the specified team.
- */
-function getRepositoriesFilePath(teamName) {
-  return path.join(teamName, "repositories");
+function getTeamsNotExist(githubTeams, directoryTeams) {
+  //get all teams that exist in the directory but not in github
+  return directoryTeams.filter((directoryTeam) => {
+    return !githubTeams.includes(directoryTeam);
+  });
 }
 
-function hasRepositoriesFile(teamName) {
-  return fs.existsSync(getRepositoriesFilePath(teamName));
+function createTeams(octokit, organizationName, teams) {
+  teams.forEach((team) => {
+    createTeam(octokit, organizationName, team);
+  });
 }
 
-/**
- * Reads the repositories file for the specified team and returns the list of repositories.
- */
-function getRepositoriesFromFile(teamName) {
-  const repositoriesFilePath = getRepositoriesFilePath(teamName);
-  return fs
-    .readFileSync(repositoriesFilePath, "utf-8")
-    .split("\n")
-    .filter(Boolean)
-    .map((line) => {
-      const [permission, full_name] = line.split(" ");
-      if (!permission || !full_name) {
-        throw new Error(`Invalid repository: ${repository}`);
-      }
-      return { full_name: full_name, permission: normalizePermissions(permission) };
-    });
-}
-/**
- * Takes the permission level and returns the corresponding permission level for the API.
- * @param {*} permission
- * @returns
- */
-function normalizePermissions(permission) {
-  permission = permission.toLowerCase();
-  if (permission == "read") {
-    return "pull";
-  }
-  if (permission == "write") {
-    return "push";
-  }
-  return permission;
-}
-
-/**
- * Reads the team's repositories and returns the list of repositories.
- */
-async function getRepositoriesFromTeam(octokit, organizationName, teamName) {
-  const repos = await octokit.paginate(
-    octokit.teams.listReposInOrg,
-    {
+async function createTeam(octokit, organizationName, teamName) {
+  // Create teams if not  a dry run, otherwise log the team name
+  if (!process.env.INPUT_DRY_RUN) {
+    console.log(`Creating team "${team}"`);
+    const team = await octokit.rest.teams.create({
       org: organizationName,
-      team_slug: teamName,
-    },
-    (response) => response.data.map((repo) => ({ full_name: repo.full_name, permission: normalizePermissions(repo.role_name) }))
-  );
-  return repos;
-}
-
-function repositoryInList(repository, repositoryList) {
-  return repositoryList.some((r) => r.full_name === repository.full_name);
-}
-
-function repositoryPermissionsChanged(repository, repositoryList) {
-  const matchingRepository = repositoryList.find((r) => r.full_name === repository.full_name);
-  return matchingRepository.permission !== repository.permission;
-}
-
-function addOrUpdateRepository(repository, teamRepos, teamName) {
-  if (repositoryInList(repository, teamRepos)) {
-    if (repositoryPermissionsChanged(repository, teamRepos)) {
-      console.log(`Updating "${repository.full_name}" with "${repository.permission}" permission in "${teamName}"`);
-    } else {
-      return false;
-    }
+      name: teamName,
+    });
   } else {
-    console.log(`Adding "${repository.full_name}" with "${repository.permission}" permission to "${teamName}"`);
-  }
-  return true;
-}
-
-/**
- * Adds the specified repositories to the corresponding team with the specified permission level.
- */
-async function addRepositoriesToTeam(octokit, organizationName, teamName, teamRepos, repositoryList) {
-  for (const repository of repositoryList) {
-    if (addOrUpdateRepository(repository, teamRepos, teamName)) {
-      // Add the repository to the corresponding team with the specified permission level
-      const [owner, repoName] = repository.full_name.split("/");
-      if (!process.env.INPUT_DRY_RUN) {
-        await octokit.teams.addOrUpdateRepoPermissionsInOrg({
-          org: organizationName,
-          team_slug: teamName,
-          owner,
-          repo: repoName,
-          permission: repository.permission,
-        });
-      } else {
-        console.log("Dry run: Skipping execution");
-      }
-    } else {
-      console.log(`Skipping "${repository.full_name}" for "${teamName}", no changes detected`);
-    }
-  }
-}
-
-/**
- * Removes any repositories from the team that are not listed in the repositories file.
- */
-async function removeRepositoriesFromTeam(octokit, organizationName, teamName, teamRepos, repositoryList) {
-  // Loop through each repository that the team has been added to
-  for (const repo of teamRepos) {
-    // Check if the repository appears in the repositories file
-    //const repoSlug = repo.full_name;
-
-    // If the repository does not appear in the repositories file, remove it from the team
-    if (!repositoryInList(repo, repositoryList)) {
-      console.log(`Removing ${repo.full_name} from ${teamName}`);
-      const [owner, repoName] = repo.full_name.split("/");
-      if (!process.env.INPUT_DRY_RUN) {
-        await octokit.teams.removeRepoInOrg({
-          org: organizationName,
-          team_slug: teamName,
-          owner,
-          repo: repoName,
-        });
-      } else {
-        console.log("Dry run: Skipping execution");
-      }
-    }
+    console.log(`DRY RUN: Team "${teamName}" would be created, SKIPPED`);
   }
 }
 
 module.exports = {
-  getDirectories,
-  hasRepositoriesFile,
-  getRepositoriesFromFile,
-  getRepositoriesFromTeam,
-  addRepositoriesToTeam,
-  removeRepositoriesFromTeam,
+  getTeamDirectories,
+  getTeams,
+  getTeamsNotExist,
+  createTeams,
 };
 
 
@@ -35338,14 +35205,6 @@ module.exports = eval("require")("encoding");
 
 "use strict";
 module.exports = require("buffer");
-
-/***/ }),
-
-/***/ 6206:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("console");
 
 /***/ }),
 
@@ -35381,7 +35240,7 @@ module.exports = require("https");
 
 /***/ }),
 
-/***/ 1017:
+/***/ 4822:
 /***/ ((module) => {
 
 "use strict";
@@ -36892,64 +36751,41 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-const fs = __nccwpck_require__(7147);
-const path = __nccwpck_require__(1017);
 const { Octokit } = __nccwpck_require__(7887);
 const { createAppAuthWithEnv } = __nccwpck_require__(9409);
 const {
-  getDirectories,
-  hasRepositoriesFile,
-  getRepositoriesFromFile,
-  getRepositoriesFromTeam,
-  addRepositoriesToTeam,
-  removeRepositoriesFromTeam,
+  getTeams,
+  getTeamDirectories,
+  getTeamsNotExist,
+  createTeams,
 } = __nccwpck_require__(4479);
-const { Console } = __nccwpck_require__(6206);
 
-// GitHub App Permissions
-// Repository permissions
-// Administration: Read-and-write
-// Metadata: Read-only
-// Organization permissions
-// Members: Read-and-write
 const octokit = new Octokit(createAppAuthWithEnv());
 const organizationName = process.env.INPUT_ORGANIZATION_NAME;
 
-/**
- * Processes the repositories for the specified team.
- */
-async function processTeam(teamName) {
-  // Get the repositories for the team defined in its repositories file
-  const repositoryList = getRepositoriesFromFile(teamName);
-  // Get the repositories already in the team on GitHub
-  const teamRepositories = await getRepositoriesFromTeam(octokit, organizationName, teamName);
-  // Add repos to the team that are defined in the file but not in the team.
-  // Update repos where permissions have changed.
-  // Skip repos where there are no changes to save on requests.
-  await addRepositoriesToTeam(octokit, organizationName, teamName, teamRepositories, repositoryList);
-
-  // Remove repos that are part of the team on GitHub but not defined in the file
-  await removeRepositoriesFromTeam(octokit, organizationName, teamName, teamRepositories, repositoryList);
-}
-
-// Get a list of all directories in the current directory
 async function main() {
-  if (!organizationName) {
-    throw new Error("ORGANIZATION_NAME environment variable not set");
+  const teamDirectories = getTeamDirectories();
+  // Skip out early if there is nothing to do
+  if (teamDirectories.length === 0) {
+    console.log("No teams to create, exiting");
+    return;
   }
-  // Define the organization name
-  const directories = getDirectories();
-  // Loop through each directory and process the repositories for the corresponding team
-  for (const teamName of directories) {
-    if (hasRepositoriesFile(teamName)) {
-      try {
-        console.log(`Processing team "${teamName}"`);
-        processTeam(teamName);
-      } catch (error) {
-        console.error(`Error processing team ${teamName}: ${error.message}`);
-      }
-    }
+  console.log(`Found team names from directories: "${teamDirectories}"`);
+
+  const githubTeams = await getTeams(octokit, organizationName);
+  console.log(`Found team names from GitHub: "${githubTeams}"`);
+
+  // Find teams that exist as directories but not in GitHub
+  const teamsNotExist = getTeamsNotExist(githubTeams, teamDirectories);
+
+  // No need to iterate if there are no teams to create
+  if (teamsNotExist.length === 0) {
+    console.log("No teams to create, exiting");
+    return;
   }
+  console.log(`Teams to create: "${teamsNotExist}"`);
+
+  createTeams(octokit, organizationName, teamsNotExist);
 }
 main();
 
