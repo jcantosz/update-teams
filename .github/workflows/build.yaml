@@ -9,49 +9,18 @@ on:
       - main
 
 jobs:
-  build-sync-repos:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build-dir:
+          - aad-user-sync
+          - create-teams-from-directories
+          - sync-repositories
+          - sync-users
     defaults:
       run:
-        working-directory: "sync-repositories"
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16.x"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm test
-  build-sync-teams:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "sync-users"
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16.x"
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
-  build-and-test-aad:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "aad-user-sync"
+        working-directory: "${{ matrix.build-dir }}"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -67,13 +36,71 @@ jobs:
       - name: Run tests
         run: npm test
 
-      # - name: Build
-      #   run: npm run build
+  # build-sync-repos:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: "sync-repositories"
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      # - name: Commit changes
-      #   run: |
-      #     git config --global user.email "actions@github.com"
-      #     git config --global user.name "GitHub Actions"
-      #     git add .
-      #     git commit -m "Build"
-      #     git push
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "16.x"
+
+  #     - name: Install dependencies
+  #       run: npm ci
+
+  #     - name: Run tests
+  #       run: npm test
+  # build-sync-teams:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: "sync-users"
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "16.x"
+
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Run tests
+  #       run: npm test
+  # build-and-test-aad:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: "aad-user-sync"
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "16.x"
+
+  #     - name: Install dependencies
+  #       run: npm ci
+
+  #     - name: Run tests
+  #       run: npm test
+
+  #     # - name: Build
+  #     #   run: npm run build
+
+  #     # - name: Commit changes
+  #     #   run: |
+  #     #     git config --global user.email "actions@github.com"
+  #     #     git config --global user.name "GitHub Actions"
+  #     #     git add .
+  #     #     git commit -m "Build"
+  #     #     git push
