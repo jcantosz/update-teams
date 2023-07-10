@@ -35228,14 +35228,15 @@ function normalizePermissions(permission) {
  * Reads the team's repositories and returns the list of repositories.
  */
 async function getRepositoriesFromTeam(octokit, organizationName, teamName) {
-  const repos = await octokit.teams.listReposInOrg({
-    org: organizationName,
-    team_slug: teamName,
-  });
-  return repos.data.map(({ full_name, role_name }) => ({
-    full_name,
-    permission: normalizePermissions(role_name),
-  }));
+  const repos = await octokit.paginate(
+    octokit.teams.listReposInOrg,
+    {
+      org: organizationName,
+      team_slug: teamName,
+    },
+    (response) => response.data.map((repo) => ({ full_name: repo.full_name, permission: normalizePermissions(repo.role_name) }))
+  );
+  return repos;
 }
 
 function repositoryInList(repository, repositoryList) {
@@ -35250,12 +35251,12 @@ function repositoryPermissionsChanged(repository, repositoryList) {
 function addOrUpdateRepository(repository, teamRepos, teamName) {
   if (repositoryInList(repository, teamRepos)) {
     if (repositoryPermissionsChanged(repository, teamRepos)) {
-      console.log(`Updating ${repository.full_name} with ${repository.permission} permission in ${teamName}`);
+      console.log(`Updating "${repository.full_name}" with "${repository.permission}" permission in "${teamName}"`);
     } else {
       return false;
     }
   } else {
-    console.log(`Adding ${repository.full_name} with ${repository.permission} permission to ${teamName}`);
+    console.log(`Adding "${repository.full_name}" with "${repository.permission}" permission to "${teamName}"`);
   }
   return true;
 }
@@ -35279,6 +35280,8 @@ async function addRepositoriesToTeam(octokit, organizationName, teamName, teamRe
       } else {
         console.log("Dry run: Skipping execution");
       }
+    } else {
+      console.log(`Skipping "${repository.full_name}" for "${teamName}", no changes detected`);
     }
   }
 }
@@ -36940,6 +36943,7 @@ async function main() {
   for (const teamName of directories) {
     if (hasRepositoriesFile(teamName)) {
       try {
+        console.log(`Processing team "${teamName}"`);
         processTeam(teamName);
       } catch (error) {
         console.error(`Error processing team ${teamName}: ${error.message}`);

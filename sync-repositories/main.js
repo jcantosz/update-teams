@@ -49,6 +49,7 @@ async function main() {
   for (const teamName of directories) {
     if (hasRepositoriesFile(teamName)) {
       try {
+        console.log(`Processing team "${teamName}"`);
         processTeam(teamName);
       } catch (error) {
         console.error(`Error processing team ${teamName}: ${error.message}`);

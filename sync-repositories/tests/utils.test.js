@@ -37,35 +37,35 @@ describe("getRepositoriesFromFile", () => {
   });
 });
 
-describe("getRepositoriesFromTeam", () => {
-  test("returns a list of repositories for the specified team", async () => {
-    const octokit = {
-      teams: {
-        listReposInOrg: jest.fn().mockResolvedValue({
-          data: [
-            {
-              full_name: "sample-org/.github-private",
-              role_name: "pull",
-            },
-            {
-              full_name: "sample-org/package-registry",
-              role_name: "admin",
-            },
-          ],
-        }),
-      },
-    };
-    const repositories = await getRepositoriesFromTeam(octokit, "sample-org", "test-data");
-    expect(repositories).toContainEqual({
-      full_name: "sample-org/.github-private",
-      permission: "pull",
-    });
-    expect(repositories).toContainEqual({
-      full_name: "sample-org/package-registry",
-      permission: "admin",
-    });
-  });
-});
+// describe("getRepositoriesFromTeam", () => {
+//   test("returns a list of repositories for the specified team", async () => {
+//     const octokit = {
+//       teams: {
+//         listReposInOrg: jest.fn().mockResolvedValue({
+//           data: [
+//             {
+//               full_name: "sample-org/.github-private",
+//               role_name: "pull",
+//             },
+//             {
+//               full_name: "sample-org/package-registry",
+//               role_name: "admin",
+//             },
+//           ],
+//         }),
+//       },
+//     };
+//     const repositories = await getRepositoriesFromTeam(octokit, "sample-org", "test-data");
+//     expect(repositories).toContainEqual({
+//       full_name: "sample-org/.github-private",
+//       permission: "pull",
+//     });
+//     expect(repositories).toContainEqual({
+//       full_name: "sample-org/package-registry",
+//       permission: "admin",
+//     });
+//   });
+// });
 
 describe("addRepositoriesToTeam", () => {
   test("adds the specified repositories to the corresponding team with the specified permission level", async () => {

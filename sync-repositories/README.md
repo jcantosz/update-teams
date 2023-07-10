@@ -30,8 +30,6 @@ jobs:
         with:
           app_id: ${{ secrets.app_id }}
           private_key: ${{ secrets.private_key }}
-          client_id: ${{ secrets.client_id }}
-          client_secret: ${{ secrets.client_secret }}
           installation_id: ${{ secrets.installation_id }}
           organization_name: "my-org"
 ```
@@ -44,8 +42,6 @@ jobs:
 
 - `INPUT_APP_ID` - GitHub App's app ID
 - `INPUT_PRIVATE_KEY` - GitHub App's private key
-- `INPUT_CLIENT_ID` - GitHub App's client ID
-- `INPUT_CLIENT_SECRET` - GitHub App's client secret
 - `INPUT_INSTALLATION_ID` - GitHub App's Installation ID
 - `INPUT_ORGANIZATION_NAME` - GitHub organization with teams/repositories to modify
 - `INPUT_DRY_RUN` - if set, skip any execution that would make changes to GitHub

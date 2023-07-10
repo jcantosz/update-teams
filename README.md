@@ -142,8 +142,6 @@ jobs:
         with:
           app_id: ${{ secrets.app_id }}
           private_key: ${{ secrets.private_key }}
-          client_id: ${{ secrets.client_id }}
-          client_secret: ${{ secrets.client_secret }}
           installation_id: ${{ secrets.installation_id }}
           organization_name: "jcantosz-test-org"
 
@@ -187,8 +185,6 @@ jobs:
         with:
           app_id: ${{ secrets.app_id }}
           private_key: ${{ secrets.private_key }}
-          client_id: ${{ secrets.client_id }}
-          client_secret: ${{ secrets.client_secret }}
           installation_id: ${{ secrets.installation_id }}
           organization_name: "jcantosz-test-org"
 
@@ -204,8 +200,6 @@ jobs:
         with:
           app_id: ${{ secrets.app_id }}
           private_key: ${{ secrets.private_key }}
-          client_id: ${{ secrets.client_id }}
-          client_secret: ${{ secrets.client_secret }}
           installation_id: ${{ secrets.installation_id }}
           organization_name: "jcantosz-test-org"
 ```

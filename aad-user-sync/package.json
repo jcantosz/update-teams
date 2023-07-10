@@ -1,5 +1,5 @@
 {
-  "name": "Azure-AD-group-sync",
+  "name": "azure-ad-group-sync",
   "version": "1.0.0",
   "description": "Loops through groups in Azure AD and creates files representing their users",
   "main": "main.js",
