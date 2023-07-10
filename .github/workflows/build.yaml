@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: "${{ matrix.build-dir }}"
-          path: dist/
+          path: "${{ matrix.build-dir }}/dist/"
           retention-days: 5
 
   pushback:
