@@ -31,10 +31,13 @@ jobs:
           node-version: "16.x"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run tests
         run: npm test
+
+      - name: install vercel/ncc
+        run: npm i -g @vercel/ncc
 
       - name: Build dist
         run: npm run build
