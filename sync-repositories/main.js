@@ -27,10 +27,8 @@ const organizationName = process.env.INPUT_ORGANIZATION_NAME;
 async function processTeam(teamName) {
   // Get the repositories for the team defined in its repositories file
   const repositoryList = getRepositoriesFromFile(teamName);
-
   // Get the repositories already in the team on GitHub
   const teamRepositories = await getRepositoriesFromTeam(octokit, organizationName, teamName);
-
   // Add repos to the team that are defined in the file but not in the team.
   // Update repos where permissions have changed.
   // Skip repos where there are no changes to save on requests.

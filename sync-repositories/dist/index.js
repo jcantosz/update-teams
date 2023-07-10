@@ -35151,11 +35151,9 @@ function createAppAuthWithEnv() {
     auth: {
       appId: process.env.INPUT_APP_ID,
       privateKey: process.env.INPUT_PRIVATE_KEY,
-      clientId: process.env.INPUT_CLIENT_ID,
-      clientSecret: process.env.INPUT_CLIENT_SECRET,
       installationId: process.env.INPUT_INSTALLATION_ID,
     },
-    base_url: process.env.INPUT_GITHUB_API_URL || "https://api.github.com",
+    baseUrl: process.env.INPUT_GITHUB_API_URL || "https://api.github.com",
   };
 }
 
@@ -36920,10 +36918,8 @@ const organizationName = process.env.INPUT_ORGANIZATION_NAME;
 async function processTeam(teamName) {
   // Get the repositories for the team defined in its repositories file
   const repositoryList = getRepositoriesFromFile(teamName);
-
   // Get the repositories already in the team on GitHub
   const teamRepositories = await getRepositoriesFromTeam(octokit, organizationName, teamName);
-
   // Add repos to the team that are defined in the file but not in the team.
   // Update repos where permissions have changed.
   // Skip repos where there are no changes to save on requests.

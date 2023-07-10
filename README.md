@@ -63,7 +63,6 @@ Where permission can be set to `read|pull`, `triage`, `write|push`, `maintain`, 
 
 A list of username to add to the team. Each user should be on its own line
 
-
 ```
 <username>
 <username>
@@ -88,13 +87,15 @@ group 2:team-name
 
 ## GitHub Application
 
-Create a github Application with the following permissions:
-// GitHub App Permissions
-// Repository permissions
-// Administration: Read-and-write
-// Metadata: Read-only
-// Organization permissions
-// Members: Read-and-write
+Create a GitHub Application with the following permissions:
+
+**GitHub App Permissions**
+
+- Repository permissions
+  - Administration: Read-and-write
+  - Metadata: Read-only
+- Organization permissions
+  - Members: Read-and-write
 
 sample usage
 Create teams from AAD

@@ -9,12 +9,6 @@ inputs:
   private_key:
     description: "The private key to use for authentication"
     required: true
-  client_id:
-    description: "The client id to use for authentication"
-    required: true
-  client_secret:
-    description: "The client secret to use for authentication"
-    required: true
   installation_id:
     description: "The installation id to use for authentication"
     required: true

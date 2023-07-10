@@ -58536,7 +58536,18 @@ async function getGroup(client, groupName) {
 
 // Get the list of users in the specified group.
 async function getGroupMembers(client, groupId) {
-  const groupMembers = await client.api(`/groups/${groupId}/members`).select("userPrincipalName").get();
+  // Get the list of users in the group. (do not get microsoft.graph.group objects)
+  //const groupMembers = await client.api(`/groups/${groupId}/members/microsoft.graph.user`).select("userPrincipalName").get();
+  // Get the list of users in the group and all nested groups. (do not get microsoft.graph.group objects)
+  const groupMembers = await client.api(`/groups/${groupId}/transitiveMembers/microsoft.graph.user`).select("userPrincipalName").get();
+  // if we got groups as well, we could check with
+  // groupMembers.value.map((user) => {
+  //  //prettier-ignore (if it keeps converting single quotes to double quotes)
+  //    if (user['@odata.type'] === '#microsoft.graph.user'){
+  //    ...
+  //    }
+  // }
+
   // convert each userPrincipalName to GitHub username
   groupMembers.value.map((user) => {
     //Remove email address domain, replace all non-alphanumeric characters with hyphens, convert to lowercase

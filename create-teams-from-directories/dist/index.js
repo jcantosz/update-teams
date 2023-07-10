@@ -35114,11 +35114,9 @@ function createAppAuthWithEnv() {
     auth: {
       appId: process.env.INPUT_APP_ID,
       privateKey: process.env.INPUT_PRIVATE_KEY,
-      clientId: process.env.INPUT_CLIENT_ID,
-      clientSecret: process.env.INPUT_CLIENT_SECRET,
       installationId: process.env.INPUT_INSTALLATION_ID,
     },
-    base_url: process.env.INPUT_GITHUB_API_URL || "https://api.github.com",
+    baseUrl: process.env.INPUT_GITHUB_API_URL || "https://api.github.com",
   };
 }
 
@@ -35174,7 +35172,7 @@ function createTeams(octokit, organizationName, teams) {
 async function createTeam(octokit, organizationName, teamName) {
   // Create teams if not  a dry run, otherwise log the team name
   if (!process.env.INPUT_DRY_RUN) {
-    console.log(`Creating team ${team}`);
+    console.log(`Creating team "${team}"`);
     const team = await octokit.rest.teams.create({
       org: organizationName,
       name: teamName,
