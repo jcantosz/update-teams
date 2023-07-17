@@ -211,5 +211,5 @@ jobs:
 ## Notes
 
 - does not do nested teams
-- does not sync users from nested teams in Azure AD
-- does not create/validate teams/repos/users created/exist
+- does not create that repos/users
+- does not validate repos/users
