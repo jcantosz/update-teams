@@ -2,6 +2,10 @@
 
 A group of actions to sync user and repo information to teams based on files in a repository. If a user/repo is exists in the file but does not exist for the team, the user/repo will be added. If they do not exist in the file but exist in the team, that item will be removed from the team.
 
+## Operation diagram
+
+![Flow diagram](/docs/resources/AD-to-Teams.drawio.png)
+
 ## Repository Layout
 
 ```
