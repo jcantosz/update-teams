@@ -6,7 +6,7 @@ TEAM_LIST=$(mktemp)
 gh api --paginate \
   -H "Accept: application/vnd.github+json" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  /orgs/${ORG}/teams --jq '.[].name' > ${TEAM_LIST}
+  /orgs/${ORG}/teams --jq '.[].slug' > ${TEAM_LIST}
 
 for team in $(cat ${TEAM_LIST}); do
   mkdir -p ${team}
