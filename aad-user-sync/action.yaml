@@ -15,7 +15,7 @@ inputs:
   continue_on_errors:
     description: "If errors should be ignored"
     required: false
-    default: "true"
+    default: "false"
   dry_run:
     description: "Prevent executing commands that would make changes to GitHub/the repo"
     required: false

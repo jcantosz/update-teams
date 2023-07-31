@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -64,7 +67,7 @@ jobs:
       - name: move files
         run: |
           base_dir=$PWD
-          for dir in */; do
+          for dir in {aad-user-sync,create-teams-from-directories,sync-repositories,sync-users}; do
             #prettier-ignore
             cd $dir
             tar xvzf dist.tar
@@ -77,3 +80,6 @@ jobs:
           git config --global user.name "GitHub Actions"
           git status
           git --no-pager diff
+
+          git commit -am "Update dist files for actions"
+          git push
