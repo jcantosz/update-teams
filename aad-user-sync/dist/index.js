@@ -58459,7 +58459,7 @@ async function getClient() {
   // Create an instance of the TokenCredentialAuthenticationProvider by passing the tokenCredential instance and options to the constructor
   const authProvider = new TokenCredentialAuthenticationProvider(credential, {
     // scopes: ["https://graph.microsoft.com/.default"],
-    scopes: ["Group.Read"],
+    scopes: ["Group.Read.All"],
     //scopes: ["User.Read.All", "Groups.Read.All", "GroupsMember.Read.All"],
   });
   return Client.initWithMiddleware({ authProvider: authProvider });
