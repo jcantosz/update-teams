@@ -30,7 +30,7 @@ describe("getGroups", () => {
     expect(groups.length).toBeGreaterThan(0);
     expect(groups[0].id).toBe("test-group-id");
     expect(groups[0].displayName).toBe("my group");
-    expect(groups[0].folderName).toBe("my-group");
+    expect(groups[0].folderName).toBe("my-group-test-group-id");
   });
 });
 
@@ -40,7 +40,7 @@ describe("getGroupById", () => {
       api: jest.fn().mockReturnValue({
         header: jest.fn().mockReturnThis(),
         select: jest.fn().mockReturnThis(),
-        get: jest.fn().mockResolvedValue({ value: [{ id: "test-group-id", displayName: "my group" }] }),
+        get: jest.fn().mockResolvedValue({ id: "test-group-id", displayName: "my group" }),
       }),
     };
 
