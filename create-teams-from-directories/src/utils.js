@@ -21,7 +21,8 @@ async function getTeams(octokit, organizationName) {
   const teams = await octokit.paginate(octokit.rest.teams.list, {
     org: organizationName,
   });
-  return teams.map((team) => team.toLowerCase());
+
+  return teams.map((team) => team.slug.toLowerCase());
 }
 
 function getTeamsNotExist(githubTeams, directoryTeams) {
