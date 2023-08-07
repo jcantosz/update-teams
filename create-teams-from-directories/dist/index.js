@@ -35163,19 +35163,21 @@ function getTeamsNotExist(githubTeams, directoryTeams) {
   });
 }
 
-function createTeams(octokit, organizationName, teams) {
+function createTeams(octokit, organizationName, teams, privateTeams) {
   teams.forEach((team) => {
-    createTeam(octokit, organizationName, team);
+    createTeam(octokit, organizationName, team, privateTeams);
   });
 }
 
-async function createTeam(octokit, organizationName, teamName) {
+async function createTeam(octokit, organizationName, teamName, privateTeams) {
+  const visibility = privateTeams ? "secret" : "closed";
   // Create teams if not  a dry run, otherwise log the team name
   if (!process.env.INPUT_DRY_RUN) {
     console.log(`Creating team "${teamName}"`);
     const team = await octokit.rest.teams.create({
       org: organizationName,
       name: teamName,
+      privacy: visibility,
     });
   } else {
     console.log(`DRY RUN: Team "${teamName}" would be created, SKIPPED`);
@@ -36763,6 +36765,7 @@ const {
 const octokit = new Octokit(createAppAuthWithEnv());
 const organizationName = process.env.INPUT_ORGANIZATION_NAME;
 const continueOnErrors = process.env.INPUT_CONTINUE_ON_ERRORS === "true";
+const privateTeams = process.env.INPUT_PRIVATE_TEAMS === "true";
 
 async function main() {
   const teamDirectories = getTeamDirectories();
@@ -36786,8 +36789,9 @@ async function main() {
   }
   console.log(`Teams to create: "${teamsNotExist}"`);
 
-  createTeams(octokit, organizationName, teamsNotExist);
+  createTeams(octokit, organizationName, teamsNotExist, privateTeams);
 }
+
 try {
   main();
 } catch (error) {
