@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const {
   getGroups,
-  getGroup,
+  getGroupById,
   getGroupMembers,
   getMembersList,
   getGroupDirectory,
@@ -34,21 +34,20 @@ describe("getGroups", () => {
   });
 });
 
-describe("getGroup", () => {
+describe("getGroupById", () => {
   test("returns a group object", async () => {
     const client = {
       api: jest.fn().mockReturnValue({
         header: jest.fn().mockReturnThis(),
-        search: jest.fn().mockReturnThis(),
         select: jest.fn().mockReturnThis(),
         get: jest.fn().mockResolvedValue({ value: [{ id: "test-group-id", displayName: "my group" }] }),
       }),
     };
 
-    const group = await getGroup(client, "Test Group");
+    const group = await getGroupById(client, "test-group-id");
     expect(group).toBeDefined();
     expect(group.constructor.name).toBe("Object");
-    expect(group.id).toBe("test-group-id");
+    expect(group.displayName).toBe("my group");
   });
 });
 

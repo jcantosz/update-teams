@@ -28,7 +28,7 @@ async function main() {
   // Iterate over each group and sync its user list to a local file.
   for (const group of groups) {
     try {
-      console.log(`---\nProcessing group "${group.displayName}"...`);
+      console.log(`---\nProcessing group "${group.displayName}" (id: "${group.id}")...`);
 
       // Get the list of users in the group.
       console.log(`\tGetting members for group "${group.displayName}"...`);
