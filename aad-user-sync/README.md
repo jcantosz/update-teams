@@ -49,7 +49,7 @@ To use this program, follow these steps:
 
 1. Create a file named groups in the root directory of this program.
 
-2. Add the display names of the groups you want to export to the groups file, one per line. If you want to specify a custom folder name for a group, add a colon after the display name and then add the folder name. For example:
+2. Add the display names of the groups you want to export to the groups file, one per line. If you want to specify a custom folder name for a group, add a colon after the ID and then add the folder name. For example:
 
 ```
 Group 1 ID
@@ -67,5 +67,5 @@ In this example, `Group 1` will be processed and its user list will be written t
 
 You can configure the behavior of this program using the following environment variables:
 
-- `CONTINUE_ON_ERRORS`: If set to `"true"`, the program will continue processing groups even if an error occurs. If set to `"false"` (the default), the program will stop processing groups when an error occurs.
+- `CONTINUE_ON_ERRORS`: If set to `"true"`, the program will continue processing groups even if an error occurs. If set to `"false"` (the default), the program will stop processing groups when an error occurs and exit with a value of 1.
 - `DRY_RUN`: If set to `"true"`, the program will not write any files. Instead, it will log the file contents that would have been written. If set to `"false"` (the default), the program will write the files as usual.
