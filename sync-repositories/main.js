@@ -20,6 +20,7 @@ const { Console } = require("console");
 // Members: Read-and-write
 const octokit = new Octokit(createAppAuthWithEnv());
 const organizationName = process.env.INPUT_ORGANIZATION_NAME;
+const continueOnErrors = process.env.INPUT_CONTINUE_ON_ERRORS === "true";
 
 /**
  * Processes the repositories for the specified team.
@@ -53,6 +54,9 @@ async function main() {
         processTeam(teamName);
       } catch (error) {
         console.error(`Error processing team ${teamName}: ${error.message}`);
+        if (!continueOnErrors) {
+          process.exit(1); // exit with error code
+        }
       }
     }
   }

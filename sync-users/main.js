@@ -44,6 +44,9 @@ async function main() {
         processTeam(teamName);
       } catch (error) {
         console.error(`Error processing team ${teamName}: ${error.message}`);
+        if (!continueOnErrors) {
+          process.exit(1); // exit with error code
+        }
       }
     }
   }

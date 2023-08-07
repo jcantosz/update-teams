@@ -22,7 +22,10 @@ inputs:
   dry_run:
     description: "Prevent executing commands that would make changes to GitHub"
     required: false
-
+  continue_on_errors:
+    description: "If errors should be ignored"
+    required: false
+    default: "false"
 runs:
   using: "node16"
   main: "dist/index.js"
