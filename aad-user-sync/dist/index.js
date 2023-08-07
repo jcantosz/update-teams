@@ -58528,6 +58528,7 @@ async function getGroupsFromAzureAD(client) {
 
 // Get the Azure AD group object for the specified group name.
 async function getGroup(client, groupName) {
+  console.log(`Checking group "${groupName}" against Azure`);
   const group = await client.api(`/groups/`).header("ConsistencyLevel", "eventual").search(`"displayName:${groupName}"`).select("id").get();
   if (group.value.length > 1) {
     throw new Error(`Multiple groups found with name ${groupName}`);
@@ -58907,14 +58908,14 @@ async function main() {
       // If an error occurs, log it and continue to the next group (if configured to do so).
       logError(group.displayName, error);
       if (!continueOnErrors) {
-        break;
+        process.exit(1); // exit with error code
       }
     }
   }
 }
 
 // Call the main function and log any errors.
-main().catch(console.error);
+main();
 
 })();
 

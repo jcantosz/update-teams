@@ -9,6 +9,7 @@ const {
 
 const octokit = new Octokit(createAppAuthWithEnv());
 const organizationName = process.env.INPUT_ORGANIZATION_NAME;
+const continueOnErrors = process.env.INPUT_CONTINUE_ON_ERRORS === "true";
 
 async function main() {
   const teamDirectories = getTeamDirectories();
@@ -34,4 +35,11 @@ async function main() {
 
   createTeams(octokit, organizationName, teamsNotExist);
 }
-main();
+try {
+  main();
+} catch (error) {
+  console.error(`Error: ${error.name}: ${error.message}`);
+  if (!continueOnErrors) {
+    process.exit(1); // exit with error code
+  }
+}

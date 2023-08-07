@@ -60,11 +60,11 @@ async function main() {
       // If an error occurs, log it and continue to the next group (if configured to do so).
       logError(group.displayName, error);
       if (!continueOnErrors) {
-        break;
+        process.exit(1); // exit with error code
       }
     }
   }
 }
 
 // Call the main function and log any errors.
-main().catch(console.error);
+main();
