@@ -26,6 +26,10 @@ inputs:
     description: "If errors should be ignored"
     required: false
     default: "false"
+  private_teams:
+    description: "Make the team private (true) or public (false)"
+    required: false
+    default: "false"
 
 runs:
   using: "node16"

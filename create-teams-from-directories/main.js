@@ -10,6 +10,7 @@ const {
 const octokit = new Octokit(createAppAuthWithEnv());
 const organizationName = process.env.INPUT_ORGANIZATION_NAME;
 const continueOnErrors = process.env.INPUT_CONTINUE_ON_ERRORS === "true";
+const privateTeams = process.env.INPUT_PRIVATE_TEAMS === "true";
 
 async function main() {
   const teamDirectories = getTeamDirectories();
@@ -33,8 +34,9 @@ async function main() {
   }
   console.log(`Teams to create: "${teamsNotExist}"`);
 
-  createTeams(octokit, organizationName, teamsNotExist);
+  createTeams(octokit, organizationName, teamsNotExist, privateTeams);
 }
+
 try {
   main();
 } catch (error) {
