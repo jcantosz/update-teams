@@ -21,13 +21,13 @@ async function getTeams(octokit, organizationName) {
   const teams = await octokit.paginate(octokit.rest.teams.list, {
     org: organizationName,
   });
-  return teams.map((team) => team.name);
+  return teams.map((team) => team.to_lower_case());
 }
 
 function getTeamsNotExist(githubTeams, directoryTeams) {
   //get all teams that exist in the directory but not in github
   return directoryTeams.filter((directoryTeam) => {
-    return !githubTeams.includes(directoryTeam);
+    return !githubTeams.includes(directoryTeam.to_lower_case());
   });
 }
 
