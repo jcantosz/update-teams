@@ -58524,7 +58524,7 @@ async function getGroupsFromAzureAD(client) {
   //add property folderName to each group
   groups.value.map((group) => {
     //replace all non-alphanumeric characters with hyphens, convert to lowercase
-    group.folderName = normalizeFolderName(group.displayName);
+    group.folderName = normalizeFolderName(`${group.displayName}-${group.id}`);
   });
   return groups.value;
 }
