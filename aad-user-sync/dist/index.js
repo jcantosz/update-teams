@@ -58484,7 +58484,7 @@ async function getGroups(client) {
 // Get group ID for each group from file
 async function addGroupIdsToFileGroup(client, groups) {
   let returnGroups = [];
-  // group [id: , folderName:]
+  // group [id: <>, folderName: <>, (add in loop) -- displayName: <>]
   for (let group of groups) {
     const groupObject = await getGroupById(client, group.id);
 
@@ -58531,12 +58531,8 @@ async function getGroupsFromAzureAD(client) {
 
 async function getGroupById(client, groupId) {
   console.log(`\tGetting group ${groupId}`);
-  const group = await client.api(`/groups/${groupId}`).header("ConsistencyLevel", "eventual").select("displayName").get();
-  if (group.value.length > 1) {
-    // this should not be possible
-    throw new Error(`Multiple groups found with id ${id}`);
-  }
-  return group.value[0];
+  const group = await client.api(`/groups/${groupId}/`).header("ConsistencyLevel", "eventual").select("displayName").get();
+  return group;
 }
 
 // Get the Azure AD group object for the specified group name.
@@ -58889,7 +58885,7 @@ async function main() {
   // Iterate over each group and sync its user list to a local file.
   for (const group of groups) {
     try {
-      console.log(`---\nProcessing group "${group.displayName} (id: "${group.id}")"...`);
+      console.log(`---\nProcessing group "${group.displayName}" (id: "${group.id}")...`);
 
       // Get the list of users in the group.
       console.log(`\tGetting members for group "${group.displayName}"...`);

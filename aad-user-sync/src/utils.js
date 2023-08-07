@@ -91,12 +91,8 @@ async function getGroupsFromAzureAD(client) {
 
 async function getGroupById(client, groupId) {
   console.log(`\tGetting group ${groupId}`);
-  const group = await client.api(`/groups/${groupId}`).header("ConsistencyLevel", "eventual").select("displayName").get();
-  if (group.value.length > 1) {
-    // this should not be possible
-    throw new Error(`Multiple groups found with id ${id}`);
-  }
-  return group.value[0];
+  const group = await client.api(`/groups/${groupId}/`).header("ConsistencyLevel", "eventual").select("displayName").get();
+  return group;
 }
 
 // Get the Azure AD group object for the specified group name.
