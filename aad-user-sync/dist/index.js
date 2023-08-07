@@ -58484,13 +58484,16 @@ async function getGroups(client) {
 // Get group ID for each group from file
 async function addGroupIdsToFileGroup(client, groups) {
   let returnGroups = [];
+  // group [id: , folderName:]
   for (let group of groups) {
-    const groupObject = await getGroup(client, group.displayName);
+    const groupObject = await getGroupById(client, group.id);
+
+    //const groupObject = await getGroupByName(client, group.displayName);
     if (groupObject) {
-      group["id"] = groupObject["id"];
+      group["displayName"] = groupObject["displayName"];
       returnGroups.push(group);
     } else {
-      throw new Error(`Group "${group.displayName}" not found in Azure AD`);
+      throw new Error(`Group "${group.id}" not found in Azure AD`);
     }
   }
   return returnGroups;
@@ -58508,10 +58511,10 @@ function readGroupsFromFile(groupsFile) {
     .split("\n")
     .filter((line) => line.trim() !== "")
     .map((line) => {
-      const [displayName, folderName] = line.split(":");
-      let normalizedFolderName = folderName ? folderName : displayName;
+      const [id, folderName] = line.split(":").map((item) => item.trim());
+      let normalizedFolderName = folderName ? folderName : id;
       normalizedFolderName = normalizeFolderName(normalizedFolderName);
-      return { displayName, folderName: normalizedFolderName };
+      return { id, folderName: normalizedFolderName };
     });
 }
 
@@ -58526,8 +58529,18 @@ async function getGroupsFromAzureAD(client) {
   return groups.value;
 }
 
+async function getGroupById(client, groupId) {
+  console.log(`\tGetting group ${groupId}`);
+  const group = await client.api(`/groups/${groupId}`).header("ConsistencyLevel", "eventual").select("displayName").get();
+  if (group.value.length > 1) {
+    // this should not be possible
+    throw new Error(`Multiple groups found with id ${id}`);
+  }
+  return group.value[0];
+}
+
 // Get the Azure AD group object for the specified group name.
-async function getGroup(client, groupName) {
+async function getGroupbyName(client, groupName) {
   console.log(`\tChecking group "${groupName}" exists in Azure`);
   const group = await client.api(`/groups/`).header("ConsistencyLevel", "eventual").search(`"displayName:${groupName}"`).select("id").get();
   if (group.value.length > 1) {
@@ -58603,7 +58616,7 @@ function logError(groupName, error) {
 module.exports = {
   getClient,
   getGroups,
-  getGroup,
+  getGroupById,
   getGroupMembers,
   getMembersList,
   getGroupDirectory,
@@ -58876,7 +58889,7 @@ async function main() {
   // Iterate over each group and sync its user list to a local file.
   for (const group of groups) {
     try {
-      console.log(`---\nProcessing group "${group.displayName}"...`);
+      console.log(`---\nProcessing group "${group.displayName} (id: "${group.id}")"...`);
 
       // Get the list of users in the group.
       console.log(`\tGetting members for group "${group.displayName}"...`);

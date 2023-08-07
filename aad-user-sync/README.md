@@ -52,9 +52,9 @@ To use this program, follow these steps:
 2. Add the display names of the groups you want to export to the groups file, one per line. If you want to specify a custom folder name for a group, add a colon after the display name and then add the folder name. For example:
 
 ```
-Group 1
-Group 2:Group2Folder
-Group 3:Group3Folder
+Group 1 ID
+Group 2 ID:Group2Folder
+Group 3 ID:Group3Folder
 ```
 
 In this example, `Group 1` will be processed and its user list will be written to a directory named `Group-1` in the current directory. `Group 2` will be processed and its user list will be written to a directory named `Group2Folder` in the current directory. `Group 3` will be processed and its user list will be written to a directory named `Group3Folder` in the current directory.
