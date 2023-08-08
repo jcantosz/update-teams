@@ -36,7 +36,7 @@ function getRepositoriesFromFile(teamName) {
       if (!permission || !full_name) {
         throw new Error(`Invalid repository: ${repository}`);
       }
-      return { full_name: full_name, permission: normalizePermissions(permission) };
+      return { full_name: full_name.toLowerCase(), permission: normalizePermissions(permission) };
     });
 }
 /**
@@ -65,7 +65,7 @@ async function getRepositoriesFromTeam(octokit, organizationName, teamName) {
       org: organizationName,
       team_slug: teamName,
     },
-    (response) => response.data.map((repo) => ({ full_name: repo.full_name, permission: normalizePermissions(repo.role_name) }))
+    (response) => response.data.map((repo) => ({ full_name: repo.full_name.toLowerCase(), permission: normalizePermissions(repo.role_name) }))
   );
   return repos;
 }

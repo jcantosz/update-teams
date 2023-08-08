@@ -16,7 +16,10 @@ async function processTeam(teamName) {
 
   // Get the users already in the team on GitHub
   const teamUsers = await getUsersFromTeam(octokit, organizationName, teamName);
-  console.log(teamUsers);
+
+  console.log(`Users for team "${teamName}"`);
+  console.log(`\tUsers listed in file: "${usersList}"`);
+  console.log(`\tUsers listed in GitHub: "${teamUsers}"`);
 
   // Add users to the team that are defined in the file but not in the team.
   // Update users where permissions have changed.
@@ -41,7 +44,7 @@ async function main() {
   for (const teamName of directories) {
     if (hasUsersFile(teamName)) {
       try {
-        processTeam(teamName);
+        await processTeam(teamName);
       } catch (error) {
         console.error(`Error processing team ${teamName}: ${error.message}`);
         if (!continueOnErrors) {

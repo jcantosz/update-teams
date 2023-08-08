@@ -27,7 +27,11 @@ function hasUsersFile(teamName) {
  */
 function getUsersFromFile(teamName) {
   const usersFilePath = getUsersFilePath(teamName);
-  return fs.readFileSync(usersFilePath, "utf-8").split("\n").filter(Boolean);
+  return fs
+    .readFileSync(usersFilePath, "utf-8")
+    .split("\n")
+    .filter(Boolean)
+    .map((user) => user.toLowerCase());
 }
 
 /**
@@ -41,7 +45,7 @@ async function getUsersFromTeam(octokit, organizationName, teamName) {
       org: organizationName,
       team_slug: teamName,
     },
-    (response) => response.data.map((user) => user.login)
+    (response) => response.data.map((user) => user.login.toLowerCase())
   );
   return users;
   //users.data.map((user) => user.login);

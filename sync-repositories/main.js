@@ -51,7 +51,7 @@ async function main() {
     if (hasRepositoriesFile(teamName)) {
       try {
         console.log(`Processing team "${teamName}"`);
-        processTeam(teamName);
+        await processTeam(teamName);
       } catch (error) {
         console.error(`Error processing team ${teamName}: ${error.message}`);
         if (!continueOnErrors) {
