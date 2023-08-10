@@ -22,6 +22,17 @@ A group of actions to sync user and repo information to teams based on files in 
 ...
 ```
 
+## Run locally
+
+1. `cp run-local.env.example run-local.env`
+1. Fill out values in run-local.env
+1. Create a directory to represent a team. Add a `users` file and a `repositories` file and fill in any values
+1. Run the scripts like:
+
+```bash
+
+```
+
 ## Actions
 
 ### create-teams-from-directories
