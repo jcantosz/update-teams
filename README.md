@@ -24,12 +24,27 @@ A group of actions to sync user and repo information to teams based on files in 
 
 ## Run locally
 
+1. install any dependencies either by running `compile-all.sh` or by running `npm install` in each directory.
 1. `cp run-local.env.example run-local.env`
 1. Fill out values in run-local.env
 1. Create a directory to represent a team. Add a `users` file and a `repositories` file and fill in any values
 1. Run the scripts like:
 
 ```bash
+# make env vars available
+source run-local.env
+
+# run aad-user-sync code
+node aad-user-sync/main.js
+
+# run create-teams-from-directories code
+node create-teams-from-directories/main.js
+
+# run sync-repositories code
+node sync-repositories/main.js
+
+# run sync-users code
+node sync-users/main.js
 
 ```
 
