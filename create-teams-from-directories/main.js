@@ -41,6 +41,7 @@ try {
   main();
 } catch (error) {
   console.error(`Error: ${error.name}: ${error.message}`);
+  console.error(error);
   if (!continueOnErrors) {
     process.exit(1); // exit with error code
   }

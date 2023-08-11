@@ -58,7 +58,8 @@ async function main() {
       }
     } catch (error) {
       // If an error occurs, log it and continue to the next group (if configured to do so).
-      logError(group.displayName, error);
+      console.error(`Error processing group "${group.displayName}": ${error.message}`);
+      console.error(error);
       if (!continueOnErrors) {
         process.exit(1); // exit with error code
       }

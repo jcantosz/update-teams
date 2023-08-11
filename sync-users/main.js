@@ -46,7 +46,8 @@ async function main() {
       try {
         await processTeam(teamName);
       } catch (error) {
-        console.error(`Error processing team ${teamName}: ${error.message}`);
+        console.error(`Error processing team "${teamName}": ${error.message}`);
+        console.error(error);
         if (!continueOnErrors) {
           process.exit(1); // exit with error code
         }
